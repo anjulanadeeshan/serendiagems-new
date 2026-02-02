@@ -64,42 +64,44 @@ const categories = [
   {
     id: 1,
     name: "Blue Sapphire",
-    description: "The Royal Standard of Ceylon",
-    image:
-      "https://lh3.googleusercontent.com/aida-public/AB6AXuCTCaY_EkGXz6lrrsqyXZ1rnopMkwq_kPEKnFC3lh_tP68XLmhSUdN5k_KVNCLVC29M4AEhAc4XkxAx6IRDx-746tndvLvYnkGgwr-ffUuZAtUL_rRPk3wOLzGA7x7vOja76c1S2arJyEnEeI9OovOhcocNXwbrruxWGwz_23xfI50BMoyxr86t7qIGx_CqZ-XZDSfFmxEEgAlwCuyBm4jYW1VKFXAwHFtjsZW8SWWeXLSewl8C2FkIVZ7BVA5NME8rjHKweaWRwfWs",
-    featured: true,
+    price: 4250,
+    image: "/collections/blue.jpg",
   },
   {
     id: 2,
-    name: "Ruby",
-    description: "King of Gems",
-    image:
-      "https://lh3.googleusercontent.com/aida-public/AB6AXuAUn8VfJHfHXKAo3TaWOXLrYt9LYpgBdBJ-h9-6aVXLf8RrQuBcyXUp63ComqtsddUokM0FklZWKcXv3yOlOVjuxUv7rY2EtNA2zHsyVFKHZPQRy8es-hkXHY5R4AqitLF-XappCsoYorKhctO4FJI7-r0hb8amysR78FUz8mZQheRNI_KyigfJ1rJEyLGZ2QVGWud4_gL3mDZ7qsmfxGOobo89FnrQScgpDfyal_TvIpQAtVK1T0Y1B31bi_PWfVYRju7Yndaf3W2n",
-    featured: false,
+    name: "Pink Sapphire",
+    price: 3100,
+    image: "/collections/pink.png",
   },
   {
     id: 3,
-    name: "Padparadscha",
-    description: "Lotus Blossom Rarity",
-    image:
-      "https://lh3.googleusercontent.com/aida-public/AB6AXuAAX-Avzr-5AFW3w1F6YQBzINYvglGGUtrMQMTtpX4KzH9VLITzT_w3WSbVcd9RdE-HGYe_GOLZdIDeTciqxU90UrZ6P4vpEynfVGYvTu39-vTm_G1OvLcJZU3huYM4AiIWFKiz0BypJUwNEMcxEuuzlVohOw0QcxxV6zfpfGhjAQyBiXgI-65tqk4_GrlgZ6UlEMxsyO1Tvt5dklyQYZZ4VobCl0Tjz0OjNuCvov2-YuV2ic_ikKT1fYJPhOGY497HwPoxkNkuyvz8",
-    featured: false,
+    name: "Ruby",
+    price: 8500,
+    image: "/collections/ruby.png",
   },
   {
     id: 4,
-    name: "Spinel",
-    description: "Vibrant Fire & Brilliance",
-    image:
-      "https://lh3.googleusercontent.com/aida-public/AB6AXuD5wk3QPV2qt77ih5cO3P8TmIrRXH_EMLcy3Pi5HPlt3toMtlNzpMomJMxeiqLtEqgHCjmR9ampeWkxHyCV8Mk_T-8bvuH4_C7ETKuVH66LpHz_kkaBXHmUKirYM0z-qu1h69avDPQX94JiB6GigzAHkkDnB-7alAW1ODWg_HRCIUJVRhT1U-Cv-1gCcuAndXkDwh1Vtg75D7bCDZ5-_UOSFFUBZatpUf-YKUcs6BZQkg_dj8zWsnkdQN9kU04rYRg6EZSp8Zm79D44",
-    featured: false,
+    name: "Yellow Sapphire",
+    price: 5900,
+    image: "/collections/yellow.png",
   },
   {
     id: 5,
+    name: "Padparadscha",
+    price: 12500,
+    image: "/collections/padparadscha.png",
+  },
+  {
+    id: 6,
     name: "Cat's Eye",
-    description: "Mystical Chatoyancy",
-    image:
-      "https://lh3.googleusercontent.com/aida-public/AB6AXuD4U-xog-erq81W9nJpIGKUEndwg2BYbqGQWbFjsz27kOGgB4op6jlnPlzk4YzXLqMt8gQZJ1r7PcpBT6CZRN9nb5xSXlXFIm4hgLbvoTZdHfEqJ-K9QSBg-WkYMGnK4aEih5TQgiKChErFDelOr8B-l5ar6USsOa9U4d4rulZMYfwqKfV8EV0g4-B2skwnYej0NG4OBfOJSfHGqKSFtJix-mGrun3oyC_JijSWXrKj8aflnFwpPLy76DSpajj0RbP4k2_DUzuRUQAq",
-    featured: false,
+    price: 4800,
+    image: "/collections/cats-eye.png",
+  },
+  {
+    id: 7,
+    name: "Green Sapphire",
+    price: 2800,
+    image: "/collections/green.png",
   },
 ];
 
@@ -407,55 +409,57 @@ export default function Home() {
         </motion.section>
 
         {/* Categories Slider */}
+        {/* Gemstone Categories Grid */}
         <motion.section
           initial="initial"
           whileInView="animate"
           viewport={{ once: true, margin: "-100px" }}
           variants={staggerContainer}
-          className="flex flex-col gap-8"
+          className="flex flex-col gap-10"
         >
           <motion.div
             variants={fadeInUp}
-            className="border-b border-slate-200 pb-4"
+            className="text-center"
           >
-            <h2 className="text-gray-900 text-3xl md:text-4xl font-serif font-bold">
+            <h2 className="text-gray-900 text-3xl md:text-5xl font-serif font-bold mb-4 uppercase tracking-widest text-center">
               Gemstone Categories
             </h2>
+            <p className="text-gray-500 text-sm max-w-2xl mx-auto">
+              Explore the finest selection of ethically sourced gemstones from the heart of Sri Lanka.
+            </p>
           </motion.div>
 
           <motion.div
             variants={fadeInUp}
-            className="flex overflow-x-auto gap-6 no-scrollbar pb-4 snap-x snap-mandatory"
+            className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-x-6 gap-y-12"
           >
             {categories.map((category, index) => (
               <motion.div
                 key={category.id}
-                initial={{ opacity: 0, x: 50 }}
-                whileInView={{ opacity: 1, x: 0 }}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: index * 0.1 }}
-                whileHover={{ y: -5 }}
-                className="flex flex-col gap-4 min-w-[280px] snap-start group cursor-pointer"
+                whileHover={{ y: -8 }}
+                className="flex flex-col gap-4 group transition-all duration-300"
               >
-                <Link href="/collections" className="w-full aspect-[3/4] rounded-xl overflow-hidden relative">
-                  <div
-                    className="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-110"
-                    style={{ backgroundImage: `url("${category.image}")` }}
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-60" />
-                  {category.featured && (
-                    <div className="absolute bottom-4 left-4 right-4">
-                      <span className="bg-[#1152d4]/90 text-white text-xs font-bold px-2 py-1 rounded uppercase tracking-wider backdrop-blur-sm">
-                        Featured
-                      </span>
-                    </div>
-                  )}
+                <Link href="/collections" className="w-full aspect-square rounded-none overflow-hidden relative bg-white border border-slate-100 p-6">
+                  <div className="relative w-full h-full">
+                    <Image
+                      src={category.image}
+                      alt={category.name}
+                      fill
+                      className="object-contain transition-transform duration-1000 group-hover:scale-110"
+                    />
+                  </div>
                 </Link>
-                <div>
-                  <h3 className="text-gray-900 text-xl font-serif font-medium group-hover:text-[#1152d4] transition-colors">
+                <div className="flex flex-col gap-1">
+                  <h3 className="text-gray-900 text-sm font-medium group-hover:text-[#1152d4] transition-colors line-clamp-1">
                     {category.name}
                   </h3>
-                  <p className="text-gray-500 text-sm">{category.description}</p>
+                  <p className="text-gray-900 font-bold text-sm">
+                    ${category.price.toLocaleString()}
+                  </p>
                 </div>
               </motion.div>
             ))}
