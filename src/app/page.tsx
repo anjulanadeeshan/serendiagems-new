@@ -142,21 +142,23 @@ function TrustBar() {
   ];
 
   return (
-    <div className="w-full bg-[#0B0F19] text-white py-20 border-y border-[#b38e5d]/20 relative overflow-hidden">
-      {/* Subtle texture or glow could go here */}
+    <div className="w-full bg-[#E7EAE5] py-20 border-y border-slate-100">
       <div className="max-w-[1440px] mx-auto px-6 md:px-12 lg:px-24">
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-x-12 gap-y-16">
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-6">
           {features.map((feature, idx) => (
-            <div key={idx} className="flex flex-col items-center text-center gap-5 group">
-              <span className="material-symbols-outlined text-[#b38e5d] text-4xl font-light group-hover:scale-110 transition-all duration-500">
+            <div
+              key={idx}
+              className="bg-white border border-slate-100 p-8 flex flex-col items-center text-center gap-5 group rounded-sm transition-all duration-500 hover:shadow-[0_10px_30px_-15px_rgba(0,0,0,0.08)] hover:border-[#b38e5d]/20"
+            >
+              <span className="material-symbols-outlined text-[#b38e5d] text-4xl font-extralight group-hover:scale-110 transition-transform duration-500">
                 {feature.icon}
               </span>
               <div className="flex flex-col gap-2">
-                <h4 className="text-[12px] font-bold uppercase tracking-[0.25em] text-white">
+                <h4 className="text-[11px] font-bold uppercase tracking-[0.2em] text-gray-900">
                   {feature.title}
                 </h4>
-                <div className="w-6 h-[1px] bg-[#b38e5d]/40 mx-auto group-hover:w-12 transition-all duration-500" />
-                <p className="text-[10px] text-white/50 uppercase tracking-[0.2em] font-medium leading-relaxed">
+                <div className="w-6 h-[1px] bg-[#b38e5d]/30 mx-auto group-hover:w-10 transition-all duration-500" />
+                <p className="text-[9px] text-gray-400 uppercase tracking-[0.15em] font-medium leading-relaxed">
                   {feature.subtitle}
                 </p>
               </div>
@@ -341,7 +343,7 @@ export default function Home() {
       </div>
 
       {/* Categories Section with Custom Background */}
-      <div className="w-full bg-[#E7EAE5] py-20">
+      <div className="w-full bg-[#FAFAFA] py-20">
         <div className="max-w-[1440px] mx-auto px-4 md:px-10 lg:px-20">
           <motion.section
             initial="initial"
