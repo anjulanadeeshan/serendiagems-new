@@ -46,7 +46,7 @@ export default function Navbar() {
                             {/* Home Link */}
                             <Link
                                 href="/"
-                                className="text-gray-700 hover:text-[#1152d4] text-sm font-medium transition-colors"
+                                className="text-gray-700 hover:text-[#b38e5d] text-sm font-medium transition-colors"
                             >
                                 Home
                             </Link>
@@ -55,7 +55,7 @@ export default function Navbar() {
                             <div className="relative" ref={dropdownRef}>
                                 <button
                                     onClick={() => setDropdownOpen(!dropdownOpen)}
-                                    className="flex items-center gap-2 text-gray-700 hover:text-[#1152d4] text-sm font-medium transition-colors"
+                                    className="flex items-center gap-2 text-gray-700 hover:text-[#b38e5d] text-sm font-medium transition-colors"
                                 >
                                     <span>Sapphires</span>
                                     <motion.span
@@ -83,7 +83,7 @@ export default function Navbar() {
                                                         key={category.name}
                                                         href={category.href}
                                                         onClick={() => setDropdownOpen(false)}
-                                                        className="flex items-center px-4 py-3 text-gray-700 hover:text-[#1152d4] hover:bg-blue-50 transition-colors text-sm"
+                                                        className="flex items-center px-4 py-3 text-gray-700 hover:text-[#b38e5d] hover:bg-slate-50 transition-colors text-sm"
                                                     >
                                                         {category.name}
                                                     </Link>
@@ -92,7 +92,7 @@ export default function Navbar() {
                                                 <Link
                                                     href="/collections"
                                                     onClick={() => setDropdownOpen(false)}
-                                                    className="flex items-center px-4 py-3 text-[#1152d4] hover:text-blue-700 hover:bg-[#1152d4]/10 transition-colors text-sm font-medium"
+                                                    className="flex items-center px-4 py-3 text-[#b38e5d] hover:text-[#a17e4f] hover:bg-[#b38e5d]/5 transition-colors text-sm font-medium"
                                                 >
                                                     <span className="material-symbols-outlined text-lg mr-3">
                                                         arrow_forward
@@ -139,26 +139,27 @@ export default function Navbar() {
 
                         {/* Right Section - Contact Us, About Us & Cart (Desktop) + Mobile Icons */}
                         <div className="flex items-center gap-6 flex-1 justify-end">
+                            {/* About Us Link (Desktop) */}
+                            <Link
+                                href="/about"
+                                className="hidden md:flex text-gray-700 hover:text-[#b38e5d] text-sm font-medium transition-colors"
+                            >
+                                Our Legacy
+                            </Link>
                             {/* Contact Us Link (Desktop) */}
                             <Link
-                                href="/about#contact"
-                                className="hidden md:flex text-gray-700 hover:text-[#1152d4] text-sm font-medium transition-colors"
+                                href="/contact"
+                                className="hidden md:flex text-gray-700 hover:text-[#b38e5d] text-sm font-medium transition-colors"
                             >
                                 Contact Us
                             </Link>
 
-                            {/* About Us Link (Desktop) */}
-                            <Link
-                                href="/about"
-                                className="hidden md:flex text-gray-700 hover:text-[#1152d4] text-sm font-medium transition-colors"
-                            >
-                                About Us
-                            </Link>
+
 
                             {/* Cart Button with Price */}
                             <button
                                 onClick={toggleCart}
-                                className="flex items-center gap-2 text-gray-700 hover:text-[#1152d4] transition-colors relative"
+                                className="flex items-center gap-2 text-gray-700 hover:text-[#b38e5d] transition-colors relative"
                             >
                                 {/* Total Price (Desktop) */}
                                 {totalItems > 0 && (
@@ -171,7 +172,7 @@ export default function Navbar() {
                                     <motion.span
                                         initial={{ scale: 0 }}
                                         animate={{ scale: 1 }}
-                                        className="absolute -top-2 -right-2 bg-[#1152d4] text-white text-xs font-bold h-5 w-5 flex items-center justify-center rounded-full"
+                                        className="absolute -top-2 -right-2 bg-[#b38e5d] text-white text-xs font-bold h-5 w-5 flex items-center justify-center rounded-full"
                                     >
                                         {totalItems}
                                     </motion.span>
@@ -181,7 +182,7 @@ export default function Navbar() {
                             {/* Mobile Menu Button */}
                             <button
                                 onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-                                className="md:hidden text-gray-700 hover:text-[#1152d4] transition-colors"
+                                className="md:hidden text-gray-700 hover:text-[#b38e5d] transition-colors"
                             >
                                 <span className="material-symbols-outlined text-2xl">
                                     {mobileMenuOpen ? "close" : "menu"}
@@ -211,10 +212,10 @@ export default function Navbar() {
                                             <Link
                                                 key={category.name}
                                                 href={category.href}
-                                                className="flex items-center text-gray-700 hover:text-[#1152d4] text-base font-medium transition-colors py-2"
+                                                className="flex items-center text-gray-700 hover:text-[#b38e5d] text-base font-medium transition-colors py-2"
                                                 onClick={() => setMobileMenuOpen(false)}
                                             >
-                                                <span className="material-symbols-outlined text-[#1152d4] text-lg mr-3">
+                                                <span className="material-symbols-outlined text-[#b38e5d] text-lg mr-3">
                                                     diamond
                                                 </span>
                                                 {category.name}
@@ -228,31 +229,31 @@ export default function Navbar() {
                                 {/* Other Links */}
                                 <Link
                                     href="/"
-                                    className="text-gray-700 hover:text-[#1152d4] text-base font-medium transition-colors py-2"
+                                    className="text-gray-700 hover:text-[#b38e5d] text-base font-medium transition-colors py-2"
                                     onClick={() => setMobileMenuOpen(false)}
                                 >
                                     Home
                                 </Link>
                                 <Link
                                     href="/collections"
-                                    className="text-gray-700 hover:text-[#1152d4] text-base font-medium transition-colors py-2"
+                                    className="text-gray-700 hover:text-[#b38e5d] text-base font-medium transition-colors py-2"
                                     onClick={() => setMobileMenuOpen(false)}
                                 >
                                     View All Collections
                                 </Link>
                                 <Link
-                                    href="/about#contact"
-                                    className="text-gray-700 hover:text-[#1152d4] text-base font-medium transition-colors py-2"
+                                    href="/contact"
+                                    className="text-gray-700 hover:text-[#b38e5d] text-base font-medium transition-colors py-2"
                                     onClick={() => setMobileMenuOpen(false)}
                                 >
                                     Contact Us
                                 </Link>
                                 <Link
                                     href="/about"
-                                    className="text-gray-700 hover:text-[#1152d4] text-base font-medium transition-colors py-2"
+                                    className="text-gray-700 hover:text-[#b38e5d] text-base font-medium transition-colors py-2"
                                     onClick={() => setMobileMenuOpen(false)}
                                 >
-                                    About Us
+                                    Our Legacy
                                 </Link>
                             </div>
                         </motion.div>
