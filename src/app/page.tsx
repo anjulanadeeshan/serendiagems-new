@@ -24,21 +24,18 @@ function FAQItem({ question, answer }: { question: string; answer: string }) {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 20 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true }}
-      className="bg-white border border-slate-200 rounded-xl overflow-hidden hover:border-[#1152d4]/30 transition-colors"
-    >
+    <div className="border-b border-slate-200 last:border-0">
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="w-full flex items-center justify-between p-6 text-left"
+        className="w-full flex items-center justify-between py-6 text-left group"
       >
-        <h3 className="text-gray-900 font-medium text-lg pr-4">{question}</h3>
+        <h3 className="text-gray-900 font-medium text-lg transition-colors group-hover:text-[#1152d4]">
+          {question}
+        </h3>
         <motion.span
           animate={{ rotate: isOpen ? 180 : 0 }}
           transition={{ duration: 0.3 }}
-          className="material-symbols-outlined text-[#1152d4] flex-shrink-0"
+          className="material-symbols-outlined text-gray-400 group-hover:text-[#1152d4] flex-shrink-0"
         >
           expand_more
         </motion.span>
@@ -52,13 +49,13 @@ function FAQItem({ question, answer }: { question: string; answer: string }) {
             transition={{ duration: 0.3 }}
             className="overflow-hidden"
           >
-            <div className="px-6 pb-6 pt-0">
-              <p className="text-gray-600 leading-relaxed">{answer}</p>
+            <div className="pb-8 pt-0">
+              <p className="text-gray-600 leading-relaxed max-w-2xl">{answer}</p>
             </div>
           </motion.div>
         )}
       </AnimatePresence>
-    </motion.div>
+    </div>
   );
 }
 
@@ -327,79 +324,84 @@ export default function Home() {
       </section>
 
       <div className="layout-container flex grow flex-col max-w-[1440px] mx-auto w-full px-4 md:px-10 lg:px-20 py-16 gap-20">
-        {/* Story Section: Raw to Polished */}
+        {/* Philosophy Section: Rare Gems */}
         <motion.section
           initial="initial"
           whileInView="animate"
           viewport={{ once: true, margin: "-100px" }}
           variants={staggerContainer}
-          className="flex flex-col gap-12"
+          className="py-10"
         >
-          <div className="flex flex-col lg:flex-row gap-12 items-center">
-            <motion.div variants={fadeInUp} className="flex flex-col gap-6 flex-1">
-              <span className="text-[#1152d4] font-bold tracking-widest uppercase text-xs">
-                Our Heritage
-              </span>
-              <h2 className="text-gray-900 font-serif text-4xl md:text-5xl font-bold leading-tight">
-                From the Earth to Elegance
-              </h2>
-              <p className="text-gray-600 text-lg font-light leading-relaxed">
-                Witness the journey of our gemstones, from the rich soils of
-                Ratnapura to the hands of master cutters. We preserve the
-                natural soul of every stone while revealing its inner brilliance
-                through generations of craftsmanship.
+          <div className="flex flex-col lg:flex-row gap-16 lg:items-center">
+            {/* Left side: Overlapping Images */}
+            <motion.div variants={fadeInUp} className="flex-1 relative">
+              <div className="group relative aspect-square w-full max-w-[500px] rounded-2xl overflow-hidden shadow-2xl">
+                <motion.div
+                  initial={{ scale: 1.2, opacity: 0 }}
+                  whileInView={{ scale: 1, opacity: 1 }}
+                  transition={{ duration: 1.5, ease: "easeOut" }}
+                  className="h-full w-full"
+                >
+                  <Image
+                    src="/neckless.jpg"
+                    alt="Fine Jewelry"
+                    fill
+                    className="object-cover transition-transform duration-1000 group-hover:scale-110"
+                  />
+                </motion.div>
+              </div>
+              <motion.div
+                initial={{ opacity: 0, x: 20, y: 20 }}
+                whileInView={{ opacity: 1, x: 0, y: 0 }}
+                transition={{ duration: 0.8, delay: 0.4 }}
+                className="absolute -bottom-8 -right-8 w-48 h-48 rounded-xl overflow-hidden border-8 border-white shadow-xl hidden md:block"
+              >
+                <Image
+                  src="/philosophy-section.jpeg"
+                  alt="Gemstone Detail"
+                  fill
+                  className="object-cover"
+                />
+              </motion.div>
+            </motion.div>
+
+            {/* Right side: Content */}
+            <motion.div variants={fadeInUp} className="flex-1 flex flex-col gap-8">
+              <div className="flex flex-col gap-2">
+                <h2 className="text-gray-900 font-serif text-5xl md:text-6xl leading-[1.1]">
+                  Rare gems for <br />
+                  <span className="text-[#b38e5d] italic font-serif">unique moments</span>
+                </h2>
+                <div className="w-16 h-[2px] bg-gray-300 mt-6" />
+              </div>
+
+              <p className="text-gray-600 text-lg font-light leading-relaxed max-w-xl">
+                At Serendia Gems, we don't just sell stones; we curate legacies.
+                Each gem in our collection is hand-selected from the
+                mines of Ratnapura district in Sri Lanka ensuring
+                unparalleled clarity and vibrant color.
               </p>
+
+              <div className="grid grid-cols-2 gap-10 py-4">
+                <div className="flex flex-col gap-1">
+                  <span className="text-3xl font-bold text-gray-900">500+</span>
+                  <span className="text-gray-400 text-sm uppercase tracking-wider font-medium">Stones Sold</span>
+                </div>
+                <div className="flex flex-col gap-1">
+                  <span className="text-3xl font-bold text-gray-900">100%</span>
+                  <span className="text-gray-400 text-sm uppercase tracking-wider font-medium">Certified Natural</span>
+                </div>
+              </div>
+
               <Link
                 href="/about"
-                className="flex items-center gap-2 text-[#1152d4] font-bold hover:text-white transition-colors mt-2 w-fit group"
+                className="flex items-center gap-2 text-gray-900 font-bold border-b-2 border-gray-900 w-fit pb-1 group hover:text-[#1152d4] hover:border-[#1152d4] transition-all"
               >
-                <span>Read Our Story</span>
+                <span className="text-xs uppercase tracking-[0.2em]">Read our philosophy</span>
                 <span className="material-symbols-outlined text-sm group-hover:translate-x-1 transition-transform">
                   arrow_forward
                 </span>
               </Link>
-            </motion.div>
-
-            <motion.div
-              variants={fadeInUp}
-              className="flex-1 grid grid-cols-2 gap-4 w-full"
-            >
-              <div className="flex flex-col gap-3 group">
-                <div
-                  className="w-full aspect-[4/5] bg-cover bg-center rounded-lg overflow-hidden relative shadow-lg"
-                  style={{
-                    backgroundImage: `url("https://lh3.googleusercontent.com/aida-public/AB6AXuDO4hlOoy4ecrdHUi31zyf4TqkucPNoR7EmMHhSZP9lu3f7VFww9qdIcp9e_DnzIwNSnoUQGk0Nhg9nRqWuq7-EoPhIMDKjpgdfMIhzkykKnQ6g3jAbcAyAMyaz7LUjL92WIGGGYRXqyczelDfF-tGPkLs80pj9CJwStlIhpjlobTJrMMnZr3I6DMETsHzw7gdDiD8bhP2V-LmBTjOLaseRrFG4i5qFj3XbTkHprknviMK2J2uYDiZPEsFvXFXnUEWoruo023cQupnZ")`,
-                  }}
-                >
-                  <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors duration-500" />
-                </div>
-                <div>
-                  <p className="text-gray-900 text-lg font-serif font-medium">
-                    Ethically Sourced Raw
-                  </p>
-                  <p className="text-gray-500 text-sm">
-                    Direct from Ratnapura mines.
-                  </p>
-                </div>
-              </div>
-              <div className="flex flex-col gap-3 group mt-12">
-                <div
-                  className="w-full aspect-[4/5] bg-cover bg-center rounded-lg overflow-hidden relative shadow-lg border border-slate-200"
-                  style={{
-                    backgroundImage: `url("https://lh3.googleusercontent.com/aida-public/AB6AXuB8Ml4K9lCp7GNcEvhCKDwTma4WKlpCs8qQxPysEYTEf3R6frWl9JulXIKVikaERzki3yWByL7aQtk5ZjP2QQEX-LLWgkCBpnjMtE6r4aTVzSTrmOc6Xe6_OuIX0Nn0QG5toB1dPw4Byrm2qwgAy37kBInNl_xZ59CNjn27IYExiFcZ2THCArkyf6WhUCWCmly_ORJe55w4GQFyjmzG6u2S7XZlD3UDZpUUTcA7NJHffi2oLsrGDdtnzBISNesmWpBd-GhYQT2q_X6N")`,
-                  }}
-                >
-                  <div className="absolute inset-0 bg-primary/0 group-hover:bg-[#1152d4]/10 transition-colors duration-500 mix-blend-overlay" />
-                </div>
-                <div>
-                  <p className="text-gray-900 text-lg font-serif font-medium">
-                    Masterfully Polished
-                  </p>
-                  <p className="text-gray-500 text-sm">
-                    Cut by heritage artisans.
-                  </p>
-                </div>
-              </div>
             </motion.div>
           </div>
         </motion.section>
@@ -582,17 +584,17 @@ export default function Home() {
           transition={{ duration: 0.6 }}
           className="flex flex-col items-center py-20"
         >
-          <div className="max-w-3xl w-full">
-            <div className="text-center mb-12">
-              <span className="text-[#1152d4] font-bold tracking-widest uppercase text-xs">
+          <div className="max-w-4xl w-full">
+            <div className="text-center mb-16">
+              <span className="text-[#b38e5d] font-bold tracking-[0.2em] uppercase text-xs">
                 Common Questions
               </span>
-              <h2 className="text-gray-900 text-4xl md:text-5xl font-serif font-bold mt-3">
+              <h2 className="text-gray-900 text-4xl md:text-5xl font-serif font-bold mt-4">
                 Frequently Asked Questions
               </h2>
             </div>
 
-            <div className="space-y-4">
+            <div className="flex flex-col">
               <FAQItem
                 question="Are your gemstones natural and treated?"
                 answer="All our gemstones are 100% natural. We clearly disclose any treatments. The majority of our collection consists of unheated and untreated stones, directly sourced from mines."

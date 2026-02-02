@@ -33,12 +33,7 @@ export const productsData: Record<string, Product> = {
         badge: "New Arrival",
         badgeColor: "bg-[#1152d4]/90",
         category: "Blue Sapphire",
-        images: [
-            "https://lh3.googleusercontent.com/aida-public/AB6AXuA1sJnNhNtfLbXBhElgbgR17gaY_3_0-7DJ2p_fK8ws1QYJh4UoTEJECmQj_v0zTKF-pEMLGrisuXDapcH5yIyTWLethnxehIrp3inS-Z_zjeSkHDqLPCFwNTgaplcDq30J12aWfa8uLIqJx-o66ny9wWHF4lAxaAKyVQF0LEw3cIV7nQdhWEwUzOWgcmlO9IIfkjGHJGqElo9Q1aHBkpkSgX6scVfZiIif1hgiP78ccTOwQYuh1lfDrL3V1sc1bRLLvOCwU0T7pdhf",
-            "https://lh3.googleusercontent.com/aida-public/AB6AXuAReCZfFTL2LhS4iRr9s1ms2j5zVq0wmarkAb_Tl90KMaufmN6s1RqNVnowfO7IFEfAwBPFpjc_AG-XnwXEtAjulRrphJsWMPM9-2AoklyM2FB2WndxiVhShxv5YPdwUN_QafCViT-24W6Hlv43JEsGB1aXn945xwFnSJMeh8r-4M6M60nQsljLLR8GY3Q-oBVuq5SPA4oH7N7uJHeoi1iciYkWuBnOhPrmPqLQZPAVLI99goCQlNGEUF_9cYrEy7-rL6PG-Rz_-ucV",
-            "https://lh3.googleusercontent.com/aida-public/AB6AXuDEGUsWy2nWK546AK1RhkXq2KfjX4-y4MrumAkgdbD3ODV-Sx7jKLH4B0NK5TMgNVk6_W3gyoFvLPGsE7UHIExpUpbI0FQYXpEYf42gY82L-XjvLx0AwHZA0-cGjPJhwlLexCkhqTf1P73C-7H4yDbibEAi0ymLPfgTB_x9zmNigKqITJEM7dNWbPdM2Nm63QiryHcnv94cAeu66OQAQYNC1rplyIOQ98frSkMAovvWz6VhU9oLX0lUmo5ZVb0Ptpn5DqH_r4cSVc5e",
-            "https://lh3.googleusercontent.com/aida-public/AB6AXuCOXlwSROq3tHlSoOQ16ixLTGzh2sXKqt5vuaKUsjEEwCr-YXc1rZMPShgFlicA933U_bQMwo-LmtOnIplAb-ERr8LGTaL-42SY7rHr8LMNnOdQw6SvSsOfP-z3kcXJL8vOIIWQGU-B3amMAA2Xu4zqe1ZhYGdNloXEK0XfEdOS7hI1nm3_cGNSWPja4251OowDDklCxWjrZccAYDj2813ILay9mYyaanPm9uyrGk6bmBdUTzGnGZMUh0h5YmpETGK7zzboL2Pf3sI4",
-        ],
+        images: ["/collections/blue.jpg"],
     },
     "2": {
         id: "2",
@@ -55,9 +50,7 @@ export const productsData: Record<string, Product> = {
         cut: "Oval Cut",
         badge: null,
         category: "Pink Sapphire",
-        images: [
-            "https://lh3.googleusercontent.com/aida-public/AB6AXuD5sfdfJiltsSqtGvE9joOFi4Dh_od0RuJU6B2YlKJWzE24608OQFnYC_BW5-4PeSbYKzHqyPAZvo9Q6i1Bwdw7eTLPrU973Syhh2iu932oStYs4uHeibPy7Qfv4LCeSxD3LIc9va-FsHT9PXvY1rAplQdiEBowEcE9ty_sKqAVsMCb6ND8cF10rjN7rgFZbX0Foz_78aHYiTFnengd5ERiZHitV3ZREe4778XuFs9zaNlMDiBcZVQZsmxLtWpbKctj02Uz_eSnhorw",
-        ],
+        images: ["/collections/pink.png"],
     },
     "3": {
         id: "3",
@@ -75,9 +68,7 @@ export const productsData: Record<string, Product> = {
         badge: "Rare Find",
         badgeColor: "bg-rose-600/90",
         category: "Ruby",
-        images: [
-            "https://lh3.googleusercontent.com/aida-public/AB6AXuCVxs5ull0jDUMHtPnuxvBBjewTLf1Fj-FSviqCeiDqrZCcXaLqQR4LcHdpi0R2eOAO_x8_GOmxRI6_3iAE3Obap4miXdRap9rK3MBtH6mZ5Fwk6YH-qjb6AWLzkhCv_YESy_jsR7NFAR7e1kMc4cgaqHZk2UpXyxI42oK3LkkR352jAYO8alT_luQWyRGCp0FKSBumZiBylVB4f81iyfZTX4ZFhJOoXUxPsEWVorUqcngLKO5cQN8RD7258SVUo4y6jiNlBCyyoabn",
-        ],
+        images: ["/collections/ruby.png"],
     },
     "4": {
         id: "4",
@@ -94,9 +85,7 @@ export const productsData: Record<string, Product> = {
         cut: "Emerald Cut",
         badge: null,
         category: "Yellow Sapphire",
-        images: [
-            "https://lh3.googleusercontent.com/aida-public/AB6AXuDjv6ImtDP-t7kDwju13E6IKkZ3jfeUtcL5rid5QQQgimdNGkQCG6wv9oZLClEvmKbCU_T1Zel9qRbKyj15vY_k_v6jQbeNpZQVbE9hU1BuznXomNMYQO13jgNJM9EiTt_i9lHSmv59kekCixfa2VbCkppsDxhrnGiFtJsnkUpXrE8RHYblfJ0pXN9xf_J2b_VwZk8IAt8qi1kAlheafHCLxOexYP8Ftk949Ftx4RHItdmLulfFmdS-DDSLNYZyMYYIrSDlu1oSpgeq",
-        ],
+        images: ["/collections/yellow.png"],
     },
     "5": {
         id: "5",
@@ -113,9 +102,7 @@ export const productsData: Record<string, Product> = {
         cut: "Radiant Cut",
         badge: null,
         category: "Teal Sapphire",
-        images: [
-            "https://lh3.googleusercontent.com/aida-public/AB6AXuAEzPVAdFo6FpL8C7hF0agP2j7io8_1pE8ky1bEIsj79zqLE_75fQfU0ojTu7VUnzzEwK-iWt26ZlOPIUGc2Mw6xqRyFgAKnal2j-vK-PmKV4EZ4CGW1VsvNg3h2COYKMzOz4-_UK3tZhDgbO7yGqUWA80Fh-BmlKUjI1VMr3IF19KNbCT6Uh39TlkAVgnQtfifgs8ZWiQHXY507J7Mr9-V-_k8MLc1mR-P7YAS3r1L2QxA01ah9gA94-LPzBI_gYHiLeidQh0XfBAp",
-        ],
+        images: ["/collections/green.png"],
     },
     "6": {
         id: "6",
@@ -132,9 +119,43 @@ export const productsData: Record<string, Product> = {
         cut: "Cushion Cut",
         badge: null,
         category: "Spinel",
-        images: [
-            "https://lh3.googleusercontent.com/aida-public/AB6AXuBmzxa1cH3xwJRwDYpDU-w-6f3z1zo5cxDe79b47UwIA3rN409Z5U8Jc6KeGCjnK3KNdKo_MdM27hzNtJFUV11AvGFWL-1U27J3uV-dV2PSPd8oIAFhoc8TvppX_q97uZWiKzL7e43XvLN986-kroeWk__ibiVMJNPDx1wkIDyJKYh2UIrnUKJMZSeFCCkJji1veENwiRJRqgbLcgg_0ckHpluFJowsomCZKQT6EmyaQViNIE9VkBtvvDIDDtYOPHuI29nhipY2Vji7",
-        ],
+        images: ["/collections/green.png"],
+    },
+    "7": {
+        id: "7",
+        name: "Rare Padparadscha Sapphire",
+        price: 12500,
+        description:
+            "A breathtaking 2.01 carat Padparadscha sapphire, exhibiting the perfect marriage of lotus pink and sunset orange. This natural, unheated stone is among the rarest of all sapphires. A true masterpiece of nature from the gem fields of Sri Lanka.",
+        weight: "2.01 Carats",
+        origin: "Sri Lanka (Ceylon)",
+        shape: "Oval Cut",
+        treatment: "Natural",
+        clarity: "VVS2 - Eye Clean",
+        color: "Pinkish Orange",
+        cut: "Oval Cut",
+        badge: "Investment Grade",
+        badgeColor: "bg-purple-600/90",
+        category: "Padparadscha",
+        images: ["/collections/padparadscha.png"],
+    },
+    "8": {
+        id: "8",
+        name: "Cat's Eye Chrysoberyl",
+        price: 4800,
+        description:
+            "An exceptional 5.40 carat cat's eye chrysoberyl with a sharp, well-defined 'milk and honey' effect. This natural gemstone exhibits a strong chatoyancy that glides across the surface. A rare specimen of exceptional quality and clarity.",
+        weight: "5.40 Carats",
+        origin: "Sri Lanka (Ceylon)",
+        shape: "Cabochon",
+        treatment: "Natural",
+        clarity: "Excellent Chatoyancy",
+        color: "Honey Green",
+        cut: "Cabochon",
+        badge: "Unique",
+        badgeColor: "bg-emerald-600/90",
+        category: "Cats Eye",
+        images: ["/collections/cats-eye.png"],
     },
 };
 
