@@ -6,7 +6,7 @@ import Link from "next/link";
 import { useState, Suspense } from "react";
 import { useSearchParams } from "next/navigation";
 import { useCart } from "@/context/CartContext";
-import { getAllProducts } from "@/data/productsData";
+import { getAllProducts, Product } from "@/data/productsData";
 
 function CollectionsContent() {
     const searchParams = useSearchParams();
@@ -25,7 +25,7 @@ function CollectionsContent() {
         );
     };
 
-    const handleAddToCart = (product: any) => {
+    const handleAddToCart = (product: Product) => {
         addItem({
             id: product.id,
             name: product.name,

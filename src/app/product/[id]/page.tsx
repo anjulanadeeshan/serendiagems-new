@@ -27,7 +27,7 @@ export default function ProductPage({ params }: { params: Promise<{ id: string }
             <main className="pt-20 bg-[#F8FAFC] min-h-screen flex items-center justify-center">
                 <div className="text-center">
                     <h1 className="text-4xl font-bold text-gray-900 mb-4">Product Not Found</h1>
-                    <p className="text-gray-600 mb-8">The product you're looking for doesn't exist.</p>
+                    <p className="text-gray-600 mb-8">The product you&apos;re looking for doesn&apos;t exist.</p>
                     <Link
                         href="/collections"
                         className="bg-[#1152d4] text-white px-6 py-3 rounded-lg hover:bg-blue-600 transition-colors"

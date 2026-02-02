@@ -33,7 +33,7 @@ export const productsData: Record<string, Product> = {
         badge: "New Arrival",
         badgeColor: "bg-[#1152d4]/90",
         category: "Blue Sapphire",
-        images: ["/collections/blue.jpg"],
+        images: ["/collections/blue/1.png"],
     },
     "2": {
         id: "2",
@@ -50,7 +50,7 @@ export const productsData: Record<string, Product> = {
         cut: "Oval Cut",
         badge: null,
         category: "Pink Sapphire",
-        images: ["/collections/pink.png"],
+        images: ["/collections/pink/1.png"],
     },
     "3": {
         id: "3",
@@ -68,7 +68,7 @@ export const productsData: Record<string, Product> = {
         badge: "Rare Find",
         badgeColor: "bg-rose-600/90",
         category: "Ruby",
-        images: ["/collections/ruby.png"],
+        images: ["/collections/rubie/1.png"],
     },
     "4": {
         id: "4",
@@ -85,7 +85,7 @@ export const productsData: Record<string, Product> = {
         cut: "Emerald Cut",
         badge: null,
         category: "Yellow Sapphire",
-        images: ["/collections/yellow.png"],
+        images: ["/collections/yellow/1.png"],
     },
     "5": {
         id: "5",
@@ -102,7 +102,7 @@ export const productsData: Record<string, Product> = {
         cut: "Radiant Cut",
         badge: null,
         category: "Teal Sapphire",
-        images: ["/collections/green.png"],
+        images: ["/collections/green/1.png"],
     },
     "6": {
         id: "6",
@@ -119,7 +119,7 @@ export const productsData: Record<string, Product> = {
         cut: "Cushion Cut",
         badge: null,
         category: "Spinel",
-        images: ["/collections/green.png"],
+        images: ["/collections/green/1.png"],
     },
     "7": {
         id: "7",
@@ -137,7 +137,7 @@ export const productsData: Record<string, Product> = {
         badge: "Investment Grade",
         badgeColor: "bg-purple-600/90",
         category: "Padparadscha",
-        images: ["/collections/padparadscha.png"],
+        images: ["/collections/padmaracha/1.png"],
     },
     "8": {
         id: "8",
@@ -155,7 +155,7 @@ export const productsData: Record<string, Product> = {
         badge: "Unique",
         badgeColor: "bg-emerald-600/90",
         category: "Cats Eye",
-        images: ["/collections/cats-eye.png"],
+        images: ["/collections/cats-eye/1.png"],
     },
 };
 

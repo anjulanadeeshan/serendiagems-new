@@ -65,72 +65,108 @@ const categories = [
     id: 1,
     name: "Blue Sapphire",
     price: 4250,
-    image: "/collections/blue.jpg",
+    image: "/collections/blue/1.png",
   },
   {
     id: 2,
     name: "Pink Sapphire",
     price: 3100,
-    image: "/collections/pink.png",
+    image: "/collections/pink/1.png",
   },
   {
     id: 3,
     name: "Ruby",
     price: 8500,
-    image: "/collections/ruby.png",
+    image: "/collections/rubie/1.png",
   },
   {
     id: 4,
     name: "Yellow Sapphire",
     price: 5900,
-    image: "/collections/yellow.png",
+    image: "/collections/yellow/1.png",
   },
   {
     id: 5,
     name: "Padparadscha",
     price: 12500,
-    image: "/collections/padparadscha.png",
+    image: "/collections/padmaracha/1.png",
   },
   {
     id: 6,
     name: "Cat's Eye",
     price: 4800,
-    image: "/collections/cats-eye.png",
+    image: "/collections/cats-eye/1.png",
   },
   {
     id: 7,
     name: "Green Sapphire",
     price: 2800,
-    image: "/collections/green.png",
+    image: "/collections/green/1.png",
   },
 ];
 
-const artworks = [
-  {
-    id: 1,
-    name: "The Kandy Royal Necklace",
-    specs: "18k White Gold, 5ct Sapphire",
-    status: "inquire",
-    image:
-      "https://lh3.googleusercontent.com/aida-public/AB6AXuBzboHJXeA-ppzIDfi_Lh1hXeEmDxv0n7DcCu7s9ARUlr_FHV0l50BbE5PRHjvF45ngtTbvan4j7mlPrwoXAlQ8K0JFNsZCtSvZi1eszRUcWvpf7Z1wulBP-ficHTShcb-5pz636a8TXhmutHuwaP5DRSxmpB5SpSRJ-hBHn_oiWITmOavwe7-WPFCdil1tkT6eWfEidWtpXbi8oc0gDzLx1lUiSBHdiY8YYhHGgCvxIb4uuJhjYoUluiaGO4_acvWIFYKpHm-ARjqb",
-  },
-  {
-    id: 2,
-    name: "Crimson Sunset Ring",
-    specs: "22k Gold, 2.5ct Ruby",
-    status: "sold",
-    image:
-      "https://lh3.googleusercontent.com/aida-public/AB6AXuDOhgpexZ3y-H3tnpyIEDHX9M6ZbiKtQVv51tFLT_ZJsg2UaGnccgUi8jvR_Hjx2S3N9wiIYQgdl4DuEiyDwktN_w2Dz7x2BvVs_4pRMg4Ji4XOBrsvq904LuMqoJuE8TBSI_Hi7dmb0fpNpHO4AtOAx6XvEKxLVB694W29YO_6k8uGkEBUIk_bFwl9Cc7SrIz_JM-C8QvwTsfXMo3dhSC4J9jAWBLJbpD_9Tr3RkY9yNGwl6rHpV4OLcLUZ4Ft78oKKdteXpX91-W5",
-  },
-  {
-    id: 3,
-    name: "Emerald Tear Earrings",
-    specs: "Platinum, 4ct Total",
-    status: "inquire",
-    image:
-      "https://lh3.googleusercontent.com/aida-public/AB6AXuA_U_Qw7hN5Myq02NnxrKV3gE3_K0NQ-ClIHzUm7LtERwWo6sdO1-7aXyTjiVLtHwybdElGj84L_Rj6z3LLX5pcp6Q6poNN3hEqNaAcDt7xF8exINzpRW0N2TIobnlnrl87ViSnrDUMQ-HejhAqgSMvKmVZ-e818-_kbCKR9Kve9WFr_ZOYxFhqwMbtLlD3uwgkCLLrysjsdKODHCFz_W1Sk__sovjgZaFjQpOeRUZLlJuxdXelmN2LWuUL4BSmhaC7nSbY2F71WNjg",
-  },
-];
+
+// Trust Bar Component
+function TrustBar() {
+  const features = [
+    {
+      icon: "diamond",
+      title: "Natural Gemstones",
+      subtitle: "UNHEATED & UNTREATED",
+    },
+    {
+      icon: "verified",
+      title: "Lab Certified",
+      subtitle: "GET AUTHENTICITY PROOF",
+    },
+    {
+      icon: "sell",
+      title: "Affordable Range",
+      subtitle: "WIDE VARIETY",
+    },
+    {
+      icon: "security",
+      title: "100% Payment Secure",
+      subtitle: "SECURE PAYMENT",
+    },
+    {
+      icon: "public",
+      title: "World Wide Shipping",
+      subtitle: "GLOBAL DELIVERY",
+    },
+    {
+      icon: "package_2",
+      title: "100% Pure",
+      subtitle: "DIRECT FROM MINE",
+    },
+  ];
+
+  return (
+    <div className="w-full bg-[#0B0F19] text-white py-20 border-y border-[#b38e5d]/20 relative overflow-hidden">
+      {/* Subtle texture or glow could go here */}
+      <div className="max-w-[1440px] mx-auto px-6 md:px-12 lg:px-24">
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-x-12 gap-y-16">
+          {features.map((feature, idx) => (
+            <div key={idx} className="flex flex-col items-center text-center gap-5 group">
+              <span className="material-symbols-outlined text-[#b38e5d] text-4xl font-light group-hover:scale-110 transition-all duration-500">
+                {feature.icon}
+              </span>
+              <div className="flex flex-col gap-2">
+                <h4 className="text-[12px] font-bold uppercase tracking-[0.25em] text-white">
+                  {feature.title}
+                </h4>
+                <div className="w-6 h-[1px] bg-[#b38e5d]/40 mx-auto group-hover:w-12 transition-all duration-500" />
+                <p className="text-[10px] text-white/50 uppercase tracking-[0.2em] font-medium leading-relaxed">
+                  {feature.subtitle}
+                </p>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+}
 
 export default function Home() {
   const [currentSlide, setCurrentSlide] = useState(0);
@@ -217,113 +253,7 @@ export default function Home() {
       </header>
 
       {/* Features Section */}
-      <section className="bg-slate-50 py-12 border-y border-slate-200">
-        <div className="max-w-[1440px] mx-auto px-4 md:px-10 lg:px-20">
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-6 md:gap-8">
-            {/* Natural Gemstones */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: 0.1 }}
-              className="flex flex-col items-center text-center gap-3"
-            >
-              <div className="w-12 h-12 flex items-center justify-center text-[#1152d4]">
-                <span className="material-symbols-outlined text-4xl">diamond</span>
-              </div>
-              <div>
-                <h3 className="text-gray-900 font-bold text-sm mb-1">Natural Gemstones</h3>
-                <p className="text-gray-500 text-xs uppercase tracking-wide">Unheated & Untreated</p>
-              </div>
-            </motion.div>
 
-            {/* Lab Certified */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: 0.2 }}
-              className="flex flex-col items-center text-center gap-3"
-            >
-              <div className="w-12 h-12 flex items-center justify-center text-[#1152d4]">
-                <span className="material-symbols-outlined text-4xl">verified</span>
-              </div>
-              <div>
-                <h3 className="text-gray-900 font-bold text-sm mb-1">Lab Certified</h3>
-                <p className="text-gray-500 text-xs uppercase tracking-wide">Get Authenticity Proof</p>
-              </div>
-            </motion.div>
-
-            {/* Affordable Range */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: 0.3 }}
-              className="flex flex-col items-center text-center gap-3"
-            >
-              <div className="w-12 h-12 flex items-center justify-center text-[#1152d4]">
-                <span className="material-symbols-outlined text-4xl">sell</span>
-              </div>
-              <div>
-                <h3 className="text-gray-900 font-bold text-sm mb-1">Affordable Range</h3>
-                <p className="text-gray-500 text-xs uppercase tracking-wide">Wide Variety</p>
-              </div>
-            </motion.div>
-
-            {/* 100% Payment Secure */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: 0.4 }}
-              className="flex flex-col items-center text-center gap-3"
-            >
-              <div className="w-12 h-12 flex items-center justify-center text-[#1152d4]">
-                <span className="material-symbols-outlined text-4xl">shield</span>
-              </div>
-              <div>
-                <h3 className="text-gray-900 font-bold text-sm mb-1">100% Payment Secure</h3>
-                <p className="text-gray-500 text-xs uppercase tracking-wide">Secure Payment</p>
-              </div>
-            </motion.div>
-
-            {/* World Wide Shipping */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: 0.5 }}
-              className="flex flex-col items-center text-center gap-3"
-            >
-              <div className="w-12 h-12 flex items-center justify-center text-[#1152d4]">
-                <span className="material-symbols-outlined text-4xl">public</span>
-              </div>
-              <div>
-                <h3 className="text-gray-900 font-bold text-sm mb-1">World Wide Shipping</h3>
-                <p className="text-gray-500 text-xs uppercase tracking-wide">Global Delivery</p>
-              </div>
-            </motion.div>
-
-            {/* 100% Pure */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: 0.6 }}
-              className="flex flex-col items-center text-center gap-3"
-            >
-              <div className="w-12 h-12 flex items-center justify-center text-[#1152d4]">
-                <span className="material-symbols-outlined text-4xl">package_2</span>
-              </div>
-              <div>
-                <h3 className="text-gray-900 font-bold text-sm mb-1">100% Pure</h3>
-                <p className="text-gray-500 text-xs uppercase tracking-wide">Direct from Mine</p>
-              </div>
-            </motion.div>
-          </div>
-        </div>
-      </section>
 
       <div className="layout-container flex grow flex-col max-w-[1440px] mx-auto w-full px-4 md:px-10 lg:px-20 py-16 gap-20">
         {/* Philosophy Section: Rare Gems */}
@@ -378,7 +308,7 @@ export default function Home() {
               </div>
 
               <p className="text-gray-600 text-lg font-light leading-relaxed max-w-xl">
-                At Serendia Gems, we don't just sell stones; we curate legacies.
+                At Serendia Gems, we don&apos;t just sell stones; we curate legacies.
                 Each gem in our collection is hand-selected from the
                 mines of Ratnapura district in Sri Lanka ensuring
                 unparalleled clarity and vibrant color.
@@ -397,7 +327,7 @@ export default function Home() {
 
               <Link
                 href="/about"
-                className="flex items-center gap-2 text-gray-900 font-bold border-b-2 border-gray-900 w-fit pb-1 group hover:text-[#1152d4] hover:border-[#1152d4] transition-all"
+                className="flex items-center gap-2 text-gray-900 font-bold border-b-2 border-gray-900 w-fit pb-1 group hover:text-[#b38e5d] hover:border-[#b38e5d] transition-all"
               >
                 <span className="text-xs uppercase tracking-[0.2em]">Read our philosophy</span>
                 <span className="material-symbols-outlined text-sm group-hover:translate-x-1 transition-transform">
@@ -408,175 +338,147 @@ export default function Home() {
           </div>
         </motion.section>
 
-        {/* Categories Slider */}
-        {/* Gemstone Categories Grid */}
-        <motion.section
-          initial="initial"
-          whileInView="animate"
-          viewport={{ once: true, margin: "-100px" }}
-          variants={staggerContainer}
-          className="flex flex-col gap-10"
-        >
-          <motion.div
-            variants={fadeInUp}
-            className="text-center"
-          >
-            <h2 className="text-gray-900 text-3xl md:text-5xl font-serif font-bold mb-4 uppercase tracking-widest text-center">
-              Gemstone Categories
-            </h2>
-            <p className="text-gray-500 text-sm max-w-2xl mx-auto">
-              Explore the finest selection of ethically sourced gemstones from the heart of Sri Lanka.
-            </p>
-          </motion.div>
+      </div>
 
-          <motion.div
-            variants={fadeInUp}
-            className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-x-6 gap-y-12"
+      {/* Categories Section with Custom Background */}
+      <div className="w-full bg-[#E7EAE5] py-20">
+        <div className="max-w-[1440px] mx-auto px-4 md:px-10 lg:px-20">
+          <motion.section
+            initial="initial"
+            whileInView="animate"
+            viewport={{ once: true, margin: "-100px" }}
+            variants={staggerContainer}
+            className="flex flex-col gap-10"
           >
-            {categories.map((category, index) => (
-              <motion.div
-                key={category.id}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: index * 0.1 }}
-                whileHover={{ y: -8 }}
-                className="flex flex-col gap-4 group transition-all duration-300"
-              >
-                <Link href="/collections" className="w-full aspect-square rounded-none overflow-hidden relative bg-white border border-slate-100 p-6">
-                  <div className="relative w-full h-full">
-                    <Image
-                      src={category.image}
-                      alt={category.name}
-                      fill
-                      className="object-contain transition-transform duration-1000 group-hover:scale-110"
-                    />
-                  </div>
-                </Link>
-                <div className="flex flex-col gap-1">
-                  <h3 className="text-gray-900 text-sm font-medium group-hover:text-[#1152d4] transition-colors line-clamp-1">
-                    {category.name}
-                  </h3>
-                  <p className="text-gray-900 font-bold text-sm">
-                    ${category.price.toLocaleString()}
-                  </p>
-                </div>
-              </motion.div>
-            ))}
-          </motion.div>
-        </motion.section>
-
-        {/* Artworks / Bespoke Jewelry */}
-        <motion.section
-          initial="initial"
-          whileInView="animate"
-          viewport={{ once: true, margin: "-100px" }}
-          variants={staggerContainer}
-          className="flex flex-col gap-10"
-        >
-          <motion.div
-            variants={fadeInUp}
-            className="text-center max-w-2xl mx-auto flex flex-col gap-4"
-          >
-            <span className="text-[#1152d4] font-bold tracking-widest uppercase text-xs">
-              Atelier
-            </span>
-            <h2 className="text-gray-900 text-4xl md:text-5xl font-serif font-bold">
-              Bespoke Artworks
-            </h2>
-            <p className="text-gray-600">
-              Unique jewelry pieces designed around the soul of our most
-              exceptional stones.
-            </p>
-          </motion.div>
-
-          <motion.div
-            variants={fadeInUp}
-            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
-          >
-            {artworks.map((artwork, index) => (
-              <motion.div
-                key={artwork.id}
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: index * 0.15 }}
-                whileHover={{ y: -5 }}
-                className="group relative bg-white rounded-xl overflow-hidden border border-slate-200 hover:border-[#1152d4]/30 transition-colors shadow-sm"
-              >
-                <div className="aspect-square overflow-hidden relative">
-                  <Image
-                    src={artwork.image}
-                    alt={artwork.name}
-                    fill
-                    className="object-cover transition-transform duration-700 group-hover:scale-105"
-                  />
-                </div>
-                <div className="p-6 flex flex-col gap-2">
-                  <h3 className="text-gray-900 text-xl font-serif">
-                    {artwork.name}
-                  </h3>
-                  <div className="flex justify-between items-center mt-2">
-                    <span className="text-gray-500 text-sm">{artwork.specs}</span>
-                    {artwork.status === "inquire" ? (
-                      <span className="text-[#1152d4] text-sm font-bold cursor-pointer group-hover:underline">
-                        Inquire
-                      </span>
-                    ) : (
-                      <span className="text-gray-400 text-sm font-medium italic">
-                        Sold Out
-                      </span>
-                    )}
-                  </div>
-                </div>
-              </motion.div>
-            ))}
-          </motion.div>
-
-          <motion.div variants={fadeInUp} className="flex justify-center mt-4">
-            <Link
-              href="/collections"
-              className="border border-slate-300 text-gray-700 px-8 py-3 rounded-full hover:bg-[#1152d4] hover:text-white hover:border-[#1152d4] transition-colors font-medium text-sm tracking-wide"
+            <motion.div
+              variants={fadeInUp}
+              className="text-center"
             >
-              View All Masterpieces
-            </Link>
-          </motion.div>
-        </motion.section>
+              <h2 className="text-gray-900 text-3xl md:text-5xl font-serif font-bold mb-4 uppercase tracking-widest text-center">
+                Gemstone Categories
+              </h2>
+              <p className="text-gray-500 text-sm max-w-2xl mx-auto">
+                Explore the finest selection of ethically sourced gemstones from the heart of Sri Lanka.
+              </p>
+            </motion.div>
 
-        {/* Luxury Testimonial */}
-        <motion.section
-          initial={{ opacity: 0, scale: 0.95 }}
-          whileInView={{ opacity: 1, scale: 1 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
-          className="flex flex-col items-center justify-center py-10"
-        >
-          <div className="bg-white p-10 md:p-16 rounded-2xl border border-slate-200 relative max-w-4xl text-center shadow-lg">
-            <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-slate-50 p-3 rounded-full border border-slate-200 text-[#1152d4]">
-              <span className="material-symbols-outlined text-4xl">
-                format_quote
-              </span>
-            </div>
-            <div className="flex justify-center gap-1 mb-6 text-[#FFD700]">
-              {[...Array(5)].map((_, i) => (
-                <span key={i} className="material-symbols-outlined fill-current">
-                  star
-                </span>
+            <motion.div
+              variants={fadeInUp}
+              className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-x-6 gap-y-12"
+            >
+              {categories.map((category, index) => (
+                <motion.div
+                  key={category.id}
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: index * 0.1 }}
+                  className="flex flex-col gap-4 group transition-all duration-300"
+                >
+                  <Link href="/collections" className="w-full aspect-square rounded-none overflow-hidden relative bg-white border border-slate-100 p-6">
+                    <div className="relative w-full h-full">
+                      <Image
+                        src={category.image}
+                        alt={category.name}
+                        fill
+                        className="object-contain transition-transform duration-1000 group-hover:scale-120"
+                      />
+                    </div>
+                  </Link>
+                  <div className="flex flex-col gap-1">
+                    <h3 className="text-gray-900 text-sm font-medium transition-colors line-clamp-1">
+                      {category.name}
+                    </h3>
+                    <p className="text-gray-900 font-bold text-sm">
+                      ${category.price.toLocaleString()}
+                    </p>
+                  </div>
+                </motion.div>
               ))}
-            </div>
-            <blockquote className="text-gray-900 text-xl md:text-2xl font-serif italic leading-relaxed mb-8">
-              &quot;The sapphire I purchased from Serendia Gems is unlike anything
-              I&apos;ve seen in European boutiques. The depth of color and the
-              ethical provenance make it truly priceless.&quot;
-            </blockquote>
-            <div className="flex flex-col items-center gap-1">
-              <cite className="text-gray-900 font-bold not-italic">
-                Eleanor Sterling
-              </cite>
-              <span className="text-gray-500 text-sm uppercase tracking-wider">
-                London, UK
-              </span>
-            </div>
+            </motion.div>
+          </motion.section>
+        </div>
+      </div>
+
+      <TrustBar />
+
+      <div className="layout-container flex grow flex-col max-w-[1440px] mx-auto w-full px-4 md:px-10 lg:px-20 py-16 gap-20">
+
+        {/* Client Stories Section */}
+        <motion.section
+          initial="initial"
+          whileInView="animate"
+          viewport={{ once: true }}
+          variants={staggerContainer}
+          className="flex flex-col gap-16 py-10"
+        >
+          <div className="text-center flex flex-col gap-4">
+            <span className="text-[#b38e5d] font-bold tracking-[0.3em] uppercase text-[10px]">
+              Client Stories
+            </span>
+            <h2 className="text-gray-900 text-4xl md:text-5xl font-serif font-medium leading-tight">
+              Enduring Legacies
+            </h2>
+            <p className="text-gray-600 text-sm max-w-xl mx-auto font-light">
+              Hear from collectors who have found their perfect gem with us.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            {[
+              {
+                name: "Eleanor P.",
+                location: "NEW YORK, USA",
+                initial: "E",
+                quote: "The blue sapphire I purchased is absolutely mesmerizing. The clarity surpasses anything I've seen in local jewelry stores. Highly recommended for serious collectors."
+              },
+              {
+                name: "Marcus T.",
+                location: "LONDON, UK",
+                initial: "M",
+                quote: "Incredible service from start to finish. They helped me source a rare Padparadscha for my engagement ring. It's unique and stunning."
+              },
+              {
+                name: "Sarah L.",
+                location: "SYDNEY, AUSTRALIA",
+                initial: "S",
+                quote: "Authenticity was my biggest concern when buying online. The GRS certificate provided peace of mind, and the stone is exactly as described."
+              }
+            ].map((testimonial, idx) => (
+              <motion.div
+                key={idx}
+                variants={fadeInUp}
+                initial="initial"
+                whileInView="animate"
+                viewport={{ once: true }}
+                className="bg-white p-10 rounded-xl relative flex flex-col gap-8 group shadow-sm border border-slate-100 hover:shadow-xl hover:border-[#b38e5d]/20 transition-all duration-500"
+              >
+                <div className="flex justify-between items-start">
+                  <div className="flex gap-1 text-[#b38e5d]">
+                    {[...Array(5)].map((_, i) => (
+                      <span key={i} className="material-symbols-outlined text-[16px] fill-current">star</span>
+                    ))}
+                  </div>
+                  <span className="material-symbols-outlined text-slate-100 text-6xl font-extralight absolute top-4 right-6 select-none">
+                    format_quote
+                  </span>
+                </div>
+
+                <blockquote className="text-gray-800 text-base font-serif italic leading-relaxed relative z-10">
+                  &quot;{testimonial.quote}&quot;
+                </blockquote>
+
+                <div className="flex items-center gap-4 mt-auto">
+                  <div className="w-12 h-12 rounded-full bg-slate-50 flex items-center justify-center text-[#b38e5d] font-serif font-bold border border-slate-100 shadow-inner">
+                    {testimonial.initial}
+                  </div>
+                  <div className="flex flex-col">
+                    <span className="text-gray-900 font-bold text-sm tracking-tight">{testimonial.name}</span>
+                    <span className="text-gray-500 text-[10px] tracking-[0.1em] uppercase font-medium">{testimonial.location}</span>
+                  </div>
+                </div>
+              </motion.div>
+            ))}
           </div>
         </motion.section>
 
