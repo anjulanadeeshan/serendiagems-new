@@ -1,9 +1,9 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
-import { useState, Suspense } from "react";
+import { useState, Suspense, useRef, useEffect } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 import { useCart } from "@/context/CartContext";
 import { getAllProducts, Product } from "@/data/productsData";
@@ -14,19 +14,50 @@ function CollectionsContent() {
     const categoryFilter = searchParams.get("category");
     const { addItem, openCart } = useCart();
     const [favorites, setFavorites] = useState<string[]>([]);
+    const [showMobileFilters, setShowMobileFilters] = useState(false);
+    const [sortBy, setSortBy] = useState("Popular");
+    const [showSortDropdown, setShowSortDropdown] = useState(false);
+    const sortDropdownRef = useRef<HTMLDivElement>(null);
 
-    // Sort and filtering states (simulation based on image)
-    const [selectedType, setSelectedType] = useState<string[]>([]);
-    const [selectedColor, setSelectedColor] = useState<string>("");
+    const sortOptions = [
+        { name: "Popular", label: "Most Popular" },
+        { name: "PriceLowHigh", label: "Price: Low to High" },
+        { name: "PriceHighLow", label: "Price: High to Low" },
+        { name: "Newest", label: "Newest Arrivals" },
+    ];
+
+    useEffect(() => {
+        function handleClickOutside(event: MouseEvent) {
+            if (sortDropdownRef.current && !sortDropdownRef.current.contains(event.target as Node)) {
+                setShowSortDropdown(false);
+            }
+        }
+        document.addEventListener("mousedown", handleClickOutside);
+        return () => document.removeEventListener("mousedown", handleClickOutside);
+    }, []);
 
     const allProducts = getAllProducts();
 
     // Filter logic
-    const products = allProducts.filter(p => {
+    const filteredProducts = allProducts.filter(p => {
         const matchesCategory = categoryFilter
             ? p.category?.toLowerCase().replace(/\s+/g, '-') === categoryFilter.toLowerCase()
             : true;
         return matchesCategory;
+    });
+
+    // Sorting logic
+    const products = [...filteredProducts].sort((a, b) => {
+        switch (sortBy) {
+            case "PriceLowHigh":
+                return a.price - b.price;
+            case "PriceHighLow":
+                return b.price - a.price;
+            case "Newest":
+                return parseInt(b.id) - parseInt(a.id);
+            default:
+                return 0; // Popular / Default
+        }
     });
 
     const categories = [
@@ -37,6 +68,7 @@ function CollectionsContent() {
         { name: "Ruby", slug: "ruby" },
         { name: "Cat's Eye", slug: "cats-eye" },
         { name: "Emerald", slug: "emerald" },
+        { name: "Fine Gems", slug: "fine-gems" },
     ];
 
     const toggleFavorite = (id: string) => {
@@ -63,6 +95,7 @@ function CollectionsContent() {
         } else {
             router.push(`/collections?category=${slug}`);
         }
+        setShowMobileFilters(false);
     };
 
     return (
@@ -71,7 +104,18 @@ function CollectionsContent() {
                 <div className="flex flex-col lg:flex-row gap-12">
 
                     {/* Sidebar - Filter Pane */}
-                    <aside className="lg:w-64 flex-shrink-0 flex flex-col gap-10">
+                    <aside className={`lg:w-64 shrink-0 flex flex-col gap-10 bg-white lg:bg-transparent p-6 lg:p-0 rounded-3xl lg:rounded-none border lg:border-none border-slate-100 ${showMobileFilters ? "block" : "hidden lg:flex"}`}>
+                        {/* Mobile Header */}
+                        <div className="flex lg:hidden items-center justify-between pb-4 border-b border-gray-100">
+                            <h2 className="text-xl font-serif font-bold text-gray-900">Filters</h2>
+                            <button
+                                onClick={() => setShowMobileFilters(false)}
+                                className="size-10 flex items-center justify-center rounded-full bg-gray-50 text-gray-500"
+                            >
+                                <span className="material-symbols-outlined">close</span>
+                            </button>
+                        </div>
+
                         {/* Categories */}
                         <div className="flex flex-col gap-6">
                             <h3 className="text-gray-900 font-bold text-sm uppercase tracking-wider">Category</h3>
@@ -135,7 +179,7 @@ function CollectionsContent() {
                                         </label>
                                     ))}
                                 </div>
-                                <div className="h-[1px] bg-gray-100 mt-2" />
+                                <div className="h-px bg-gray-100 mt-2" />
                             </div>
 
                             {/* Price Filter Redesigned */}
@@ -145,13 +189,13 @@ function CollectionsContent() {
                                     <span className="text-sm font-bold text-gray-900">Price (Rs)</span>
                                 </div>
 
-                                <div className="flex items-center gap-3">
-                                    <div className="flex-1 flex items-center border border-gray-200 rounded min-w-0">
+                                <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3">
+                                    <div className="w-full sm:flex-1 flex items-center border border-gray-200 rounded min-w-0">
                                         <div className="bg-gray-100 px-2 py-2 text-[#b38e5d] font-bold text-sm border-r border-gray-200">Rs</div>
                                         <input type="number" placeholder="139400" className="w-full px-2 py-2 text-sm focus:outline-none bg-transparent" />
                                     </div>
-                                    <span className="text-gray-400">-</span>
-                                    <div className="flex-1 flex items-center border border-gray-200 rounded min-w-0">
+                                    <span className="hidden sm:inline text-gray-400">-</span>
+                                    <div className="w-full sm:flex-1 flex items-center border border-gray-200 rounded min-w-0">
                                         <div className="bg-gray-50 px-2 py-2 text-gray-500 font-medium text-sm border-r border-gray-200">Rs</div>
                                         <input type="number" placeholder="2515600" className="w-full px-2 py-2 text-sm focus:outline-none bg-transparent" />
                                     </div>
@@ -162,12 +206,9 @@ function CollectionsContent() {
                                         <div className="absolute -top-[7px] left-0 w-4 h-4 rounded-full bg-white border-2 border-gray-900 cursor-pointer shadow-sm hover:scale-110 transition-transform" />
                                         <div className="absolute -top-[7px] right-0 w-4 h-4 rounded-full bg-white border-2 border-gray-900 cursor-pointer shadow-sm hover:scale-110 transition-transform" />
 
-                                        {/* Ticks Simulation */}
-                                        <div className="absolute top-0 left-0 w-full h-full flex justify-between px-1">
-                                            {[...Array(5)].map((_, i) => (
-                                                <div key={i} className="w-[1px] h-2 bg-gray-900 -mt-0.5" />
-                                            ))}
-                                        </div>
+                                        {[...Array(5)].map((_, i) => (
+                                            <div key={i} className="w-px h-2 bg-gray-900 -mt-0.5" />
+                                        ))}
                                     </div>
                                     <div className="flex justify-between text-[10px] text-gray-500 font-medium tracking-tighter">
                                         <span>139,400</span>
@@ -179,7 +220,10 @@ function CollectionsContent() {
                                 </div>
                             </div>
 
-                            <button className="w-full py-4 bg-[#b38e5d] text-white rounded-lg font-bold text-sm shadow-md transition-all active:scale-95 hover:bg-[#a17e4f]">
+                            <button
+                                onClick={() => setShowMobileFilters(false)}
+                                className="w-full py-4 bg-[#b38e5d] text-white rounded-lg font-bold text-sm shadow-md transition-all active:scale-95 hover:bg-[#a17e4f]"
+                            >
                                 Apply Filters
                             </button>
                         </div>
@@ -191,24 +235,73 @@ function CollectionsContent() {
                         <div className="flex flex-col gap-6">
                             {/* Breadcrumbs */}
                             <nav className="flex items-center gap-2 text-[12px] font-medium text-gray-400 uppercase tracking-widest">
-                                <Link href="/" className="hover:text-gray-900">Main Page</Link>
+                                <Link href="/" className="hover:text-gray-900 whitespace-nowrap">Main Page</Link>
                                 <span className="material-symbols-outlined text-[12px]">chevron_right</span>
-                                <Link href="/collections" className={`${!categoryFilter ? "text-gray-900" : "hover:text-gray-900"}`}>Category</Link>
+                                <Link href="/collections" className={`${!categoryFilter ? "text-gray-900" : "hover:text-gray-900"} whitespace-nowrap`}>Category</Link>
                                 {categoryFilter && (
                                     <>
                                         <span className="material-symbols-outlined text-[12px]">chevron_right</span>
-                                        <span className="text-gray-900 uppercase">{categoryFilter.replace(/-/g, ' ')}</span>
+                                        <span className="text-gray-900 uppercase truncate">{categoryFilter.replace(/-/g, ' ')}</span>
                                     </>
                                 )}
                             </nav>
 
-                            <div className="flex items-end justify-between">
-                                <h1 className="text-4xl font-serif font-bold text-gray-900 capitalize">
+                            <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-6">
+                                <h1 className="text-3xl md:text-4xl font-serif font-bold text-gray-900 capitalize">
                                     {categoryFilter ? categoryFilter.replace(/-/g, ' ') : "All Collections"}
                                 </h1>
-                                <div className="flex items-center gap-4 border border-gray-200 rounded-lg px-4 py-2 text-sm font-medium text-gray-500 cursor-pointer hover:bg-gray-50 transition-colors">
-                                    <span>Sort by: <span className="text-gray-900">Most Popular</span></span>
-                                    <span className="material-symbols-outlined text-sm">sort</span>
+
+                                <div className="flex items-center gap-3">
+                                    {/* Mobile Filter Toggle */}
+                                    <button
+                                        onClick={() => setShowMobileFilters(!showMobileFilters)}
+                                        className="lg:hidden flex-1 flex items-center justify-center gap-2 border border-gray-200 rounded-lg px-4 py-3 text-sm font-bold text-gray-900 hover:bg-gray-50 transition-colors"
+                                    >
+                                        <span className="material-symbols-outlined text-lg">filter_list</span>
+                                        {showMobileFilters ? "Hide Filters" : "Filters"}
+                                    </button>
+
+                                    <div className="relative" ref={sortDropdownRef}>
+                                        <button
+                                            onClick={() => setShowSortDropdown(!showSortDropdown)}
+                                            className="flex-1 sm:flex-none flex items-center justify-center gap-4 border border-gray-200 rounded-lg px-4 py-3 text-sm font-medium text-gray-500 cursor-pointer hover:bg-gray-50 transition-colors min-w-[180px]"
+                                        >
+                                            <span className="whitespace-nowrap">Sort: <span className="text-gray-900">{sortOptions.find(o => o.name === sortBy)?.label.split(': ')[1] || sortOptions.find(o => o.name === sortBy)?.label}</span></span>
+                                            <motion.span
+                                                animate={{ rotate: showSortDropdown ? 180 : 0 }}
+                                                className="material-symbols-outlined text-sm"
+                                            >
+                                                expand_more
+                                            </motion.span>
+                                        </button>
+
+                                        <AnimatePresence>
+                                            {showSortDropdown && (
+                                                <motion.div
+                                                    initial={{ opacity: 0, y: 10, scale: 0.95 }}
+                                                    animate={{ opacity: 1, y: 0, scale: 1 }}
+                                                    exit={{ opacity: 0, y: 10, scale: 0.95 }}
+                                                    className="absolute right-0 top-full mt-2 w-56 bg-white border border-slate-200 rounded-xl shadow-xl z-50 overflow-hidden"
+                                                >
+                                                    <div className="py-2">
+                                                        {sortOptions.map((option) => (
+                                                            <button
+                                                                key={option.name}
+                                                                onClick={() => {
+                                                                    setSortBy(option.name);
+                                                                    setShowSortDropdown(false);
+                                                                }}
+                                                                className={`w-full text-left px-4 py-3 text-sm transition-colors hover:bg-slate-50 ${sortBy === option.name ? "text-[#b38e5d] font-bold bg-[#b38e5d]/5" : "text-gray-700"
+                                                                    }`}
+                                                            >
+                                                                {option.label}
+                                                            </button>
+                                                        ))}
+                                                    </div>
+                                                </motion.div>
+                                            )}
+                                        </AnimatePresence>
+                                    </div>
                                 </div>
                             </div>
 

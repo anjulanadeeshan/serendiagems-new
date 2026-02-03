@@ -51,6 +51,13 @@ export default function Navbar() {
                                 Home
                             </Link>
 
+                            <Link
+                                href="/fine-gems"
+                                className="text-gray-700 hover:text-[#b38e5d] text-sm font-medium transition-colors"
+                            >
+                                Fine Gems
+                            </Link>
+
                             {/* Sapphires Dropdown */}
                             <div className="relative" ref={dropdownRef}>
                                 <button
@@ -233,6 +240,13 @@ export default function Navbar() {
                                     onClick={() => setMobileMenuOpen(false)}
                                 >
                                     Home
+                                </Link>
+                                <Link
+                                    href="/fine-gems"
+                                    className="text-gray-700 hover:text-[#b38e5d] text-base font-medium transition-colors py-2"
+                                    onClick={() => setMobileMenuOpen(false)}
+                                >
+                                    Fine Gems
                                 </Link>
                                 <Link
                                     href="/collections"

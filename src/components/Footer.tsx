@@ -58,6 +58,12 @@ export default function Footer() {
                             Rubies
                         </Link>
                         <Link
+                            href="/fine-gems"
+                            className="text-gray-600 hover:text-[#1152d4] transition-colors text-sm"
+                        >
+                            Fine Gems
+                        </Link>
+                        <Link
                             href="/collections"
                             className="text-gray-600 hover:text-[#1152d4] transition-colors text-sm"
                         >
