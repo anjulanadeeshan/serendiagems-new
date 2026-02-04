@@ -5,7 +5,7 @@ export default function Footer() {
     return (
         <footer className="bg-white border-t border-slate-200 mt-auto">
             <div className="max-w-[1440px] mx-auto px-6 lg:px-20 py-16">
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12">
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12">
                     {/* Brand */}
                     <div className="flex flex-col gap-6">
                         <div className="flex items-center gap-3 text-gray-900">
@@ -108,25 +108,7 @@ export default function Footer() {
                         </Link>
                     </div>
 
-                    {/* Newsletter */}
-                    <div className="flex flex-col gap-4">
-                        <h3 className="text-gray-900 font-bold text-sm tracking-widest uppercase">
-                            Stay Updated
-                        </h3>
-                        <p className="text-gray-600 text-sm">
-                            Subscribe to receive exclusive offers and gemological insights.
-                        </p>
-                        <div className="flex gap-2">
-                            <input
-                                className="bg-slate-50 border border-slate-300 rounded-lg px-4 py-2 text-gray-900 text-sm w-full focus:outline-none focus:border-[#1152d4] transition-colors"
-                                placeholder="Email address"
-                                type="email"
-                            />
-                            <button className="bg-[#1152d4] hover:bg-blue-600 text-white rounded-lg px-4 py-2 text-sm font-bold transition-colors">
-                                Join
-                            </button>
-                        </div>
-                    </div>
+
                 </div>
 
                 <div className="border-t border-slate-200 mt-16 pt-8 flex flex-col md:flex-row justify-between items-center gap-4">

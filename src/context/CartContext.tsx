@@ -36,18 +36,7 @@ export function useCart() {
 }
 
 export default function CartProvider({ children }: { children: ReactNode }) {
-    const [items, setItems] = useState<CartItem[]>([
-        // Sample items for demo
-        {
-            id: "1",
-            name: "Royal Blue Sapphire",
-            price: 4250,
-            image: "https://lh3.googleusercontent.com/aida-public/AB6AXuCG2eVEoI1DlbG6WoeWY-fJHBkCfzSLiI-dAhtr4sU_0GW2FYHIF_pPxpFm3oVGqXOZZFBpQ58Uon-F81aaYkfy_pq1wwP2ajSA7clGOErdIAp9j1dQwjCiGf_aaScWwq5yEbll0Cu8R-h6TEGdb8Ymjauh6WsI02o8NclA0QtBA6YBDzDTOqZWVY73HHF0H5t4C-RBdMGF25Ker_WDQuON-IjGz2HGFWsL0DLdC6F4dUKAEtWK6TgvL56GvhyhHMzX-5phlbymZiVh",
-            weight: "2.14 ct",
-            cut: "Cushion Cut",
-            quantity: 1,
-        },
-    ]);
+    const [items, setItems] = useState<CartItem[]>([]);
     const [isOpen, setIsOpen] = useState(false);
 
     const addItem = (item: Omit<CartItem, "quantity">) => {

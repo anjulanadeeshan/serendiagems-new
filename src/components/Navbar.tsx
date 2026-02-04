@@ -1,27 +1,56 @@
 "use client";
 
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import Image from "next/image";
 import { useState, useRef, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useCart } from "@/context/CartContext";
 import CartDrawer from "./CartDrawer";
 
-const gemCategories = [
-    { name: "Blue Sapphires", href: "/collections?category=blue-sapphire" },
-    { name: "Pink Sapphires", href: "/collections?category=pink-sapphire" },
-    { name: "Yellow Sapphires", href: "/collections?category=yellow-sapphire" },
-    { name: "Rubies", href: "/collections?category=ruby" },
-    { name: "Padparadscha", href: "/collections?category=padparadscha" },
-    { name: "Spinels", href: "/collections?category=spinel" },
-    { name: "Cat's Eye", href: "/collections?category=cats-eye" },
-];
+import { supabase } from "@/lib/supabase";
+
+interface Category {
+    id: number;
+    name: string;
+    image_url: string;
+    slug: string;
+}
 
 export default function Navbar() {
+    const [gemCategories, setGemCategories] = useState<
+        { name: string; href: string }[]
+    >([]);
+
+    useEffect(() => {
+        const fetchCategories = async () => {
+            try {
+                const { data } = await supabase
+                    .from("categories")
+                    .select("*")
+                    .order("name", { ascending: true });
+
+                if (data) {
+                    setGemCategories(
+                        data.map((cat) => ({
+                            name: cat.name,
+                            href: `/collections?category=${cat.slug}`,
+                        }))
+                    );
+                }
+            } catch (error) {
+                console.error("Error fetching categories:", error);
+            }
+        };
+
+        fetchCategories();
+    }, []);
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
     const [dropdownOpen, setDropdownOpen] = useState(false);
     const { totalItems, totalPrice, toggleCart } = useCart();
     const dropdownRef = useRef<HTMLDivElement>(null);
+
+    const pathname = usePathname();
 
     // Close dropdown when clicking outside
     useEffect(() => {
@@ -33,6 +62,8 @@ export default function Navbar() {
         document.addEventListener("mousedown", handleClickOutside);
         return () => document.removeEventListener("mousedown", handleClickOutside);
     }, []);
+
+    if (pathname.startsWith("/admin")) return null;
 
     return (
         <>
@@ -59,7 +90,12 @@ export default function Navbar() {
                             </Link>
 
                             {/* Sapphires Dropdown */}
-                            <div className="relative" ref={dropdownRef}>
+                            <div
+                                className="relative"
+                                ref={dropdownRef}
+                                onMouseEnter={() => setDropdownOpen(true)}
+                                onMouseLeave={() => setDropdownOpen(false)}
+                            >
                                 <button
                                     onClick={() => setDropdownOpen(!dropdownOpen)}
                                     className="flex items-center gap-2 text-gray-700 hover:text-[#b38e5d] text-sm font-medium transition-colors"
@@ -82,9 +118,9 @@ export default function Navbar() {
                                             animate={{ opacity: 1, y: 0, scale: 1 }}
                                             exit={{ opacity: 0, y: 10, scale: 0.95 }}
                                             transition={{ duration: 0.2 }}
-                                            className="absolute top-full left-0 mt-3 w-56 bg-white backdrop-blur-xl border border-slate-200 rounded-xl shadow-xl overflow-hidden"
+                                            className="absolute top-full left-0 pt-3 w-56"
                                         >
-                                            <div className="py-2">
+                                            <div className="bg-white backdrop-blur-xl border border-slate-200 rounded-xl shadow-xl overflow-hidden py-2">
                                                 {gemCategories.map((category) => (
                                                     <Link
                                                         key={category.name}

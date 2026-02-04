@@ -4,7 +4,10 @@ import { motion, AnimatePresence } from "framer-motion";
 import Image from "next/image";
 import { useCart } from "@/context/CartContext";
 
+import { useRouter } from "next/navigation";
+
 export default function CartDrawer() {
+    const router = useRouter();
     const {
         items,
         isOpen,
@@ -176,7 +179,13 @@ export default function CartDrawer() {
                                 </div>
 
                                 {/* Checkout Button */}
-                                <button className="w-full bg-[#1152d4] hover:bg-blue-600 text-white font-bold py-4 rounded-lg transition-all flex items-center justify-center gap-2 shadow-lg">
+                                <button
+                                    onClick={() => {
+                                        closeCart();
+                                        router.push("/checkout");
+                                    }}
+                                    className="w-full bg-[#1152d4] hover:bg-blue-600 text-white font-bold py-4 rounded-lg transition-all flex items-center justify-center gap-2 shadow-lg"
+                                >
                                     <span>Proceed to Checkout</span>
                                     <span className="material-symbols-outlined text-sm">
                                         arrow_forward

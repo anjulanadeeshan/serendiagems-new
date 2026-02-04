@@ -3,25 +3,108 @@
 import { motion } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
-import { useState } from "react";
+import { useState, useEffect, use } from "react";
 import { useCart } from "@/context/CartContext";
-import { use } from "react";
-import { getProductById, getSimilarProducts } from "@/data/productsData";
+import { supabase } from "@/lib/supabase";
+
+interface Product {
+    id: number;
+    name: string;
+    price: number;
+    description: string;
+    weight: string;
+    origin: string;
+    treatment: string;
+    clarity: string;
+    color: string;
+    cut: string;
+    shape: string;
+    images: string[];
+    video_url?: string;
+    category?: string;
+    type?: string;
+    badge?: string;
+    badgeColor?: string;
+}
 
 export default function ProductPage({ params }: { params: Promise<{ id: string }> }) {
     const { id } = use(params);
-    const [selectedImage, setSelectedImage] = useState(0);
+    const [product, setProduct] = useState<Product | null>(null);
+    const [similarProducts, setSimilarProducts] = useState<Product[]>([]);
+    const [loading, setLoading] = useState(true);
+    const [selectedMediaIndex, setSelectedMediaIndex] = useState(0);
     const [isDescriptionOpen, setIsDescriptionOpen] = useState(true);
     const [isShippingOpen, setIsShippingOpen] = useState(false);
     const { addItem, openCart } = useCart();
 
-    // Get product by ID
-    const product = getProductById(id);
+    useEffect(() => {
+        const fetchProductData = async () => {
+            setLoading(true);
+            try {
+                // Fetch Main Product
+                const { data: productData, error } = await supabase
+                    .from('products')
+                    .select(`
+                        *,
+                        category:categories(name),
+                        type:types(name),
+                        shape:shapes(name)
+                    `)
+                    .eq('id', id)
+                    .single();
 
-    // Get similar products
-    const similarProducts = getSimilarProducts(id, 4);
+                if (error) {
+                    console.error("Error fetching product:", error);
+                    setProduct(null);
+                } else if (productData) {
+                    // Map Supabase data to local interface
+                    const mappedProduct: Product = {
+                        ...productData,
+                        category: productData.category?.name,
+                        type: productData.type?.name,
+                        shape: productData.shape?.name,
+                        images: productData.images || [],
+                    };
+                    setProduct(mappedProduct);
 
-    // If product not found, show 404 or redirect
+                    // Fetch Similar Products (same category, excluding current)
+                    if (productData.category_id) {
+                        const { data: similarData } = await supabase
+                            .from('products')
+                            .select('id, name, price, images, clarity, weight')
+                            .eq('category_id', productData.category_id)
+                            .neq('id', id)
+                            .limit(4);
+
+                        if (similarData) {
+                            setSimilarProducts(similarData.map((p: any) => ({
+                                ...p,
+                                images: p.images || [],
+                                // Defaults for minimal display
+                                description: '', weight: p.weight || '', origin: '', treatment: '', clarity: p.clarity || '', color: '', cut: '', shape: ''
+                            })));
+                        }
+                    }
+                }
+            } catch (err) {
+                console.error("Unexpected error:", err);
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        fetchProductData();
+    }, [id]);
+
+    if (loading) {
+        return (
+            <div className="min-h-screen bg-[#F8FAFC] pt-32 flex items-center justify-center">
+                <div className="text-[#b38e5d] text-2xl font-serif animate-pulse">Loading Gemstone...</div>
+            </div>
+        );
+    }
+
+    // If product not found
     if (!product) {
         return (
             <main className="pt-20 bg-[#F8FAFC] min-h-screen flex items-center justify-center">
@@ -41,7 +124,7 @@ export default function ProductPage({ params }: { params: Promise<{ id: string }
 
     const handleAddToCart = () => {
         addItem({
-            id: product.id,
+            id: product.id.toString(),
             name: product.name,
             price: product.price,
             image: product.images[0],
@@ -51,8 +134,16 @@ export default function ProductPage({ params }: { params: Promise<{ id: string }
         openCart();
     };
 
+    // Combine images and video into a single media list
+    const mediaList = [
+        ...(product?.images || []).map(url => ({ type: 'image' as const, url })),
+        ...(product?.video_url ? [{ type: 'video' as const, url: product.video_url }] : [])
+    ];
+
+    const selectedMedia = mediaList[selectedMediaIndex] || mediaList[0];
+
     return (
-        <main className="pt-20 bg-[#F8FAFC]">
+        <main className="pt-24 bg-[#F8FAFC]">
             {/* Breadcrumbs */}
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
                 <nav className="flex text-sm text-gray-500">
@@ -77,7 +168,7 @@ export default function ProductPage({ params }: { params: Promise<{ id: string }
                                 <span className="material-symbols-outlined text-base mx-1">
                                     chevron_right
                                 </span>
-                                <span className="text-white font-medium">{product.name}</span>
+                                <span className="text-gray-900 font-medium truncate max-w-[200px]">{product.name}</span>
                             </div>
                         </li>
                     </ol>
@@ -94,43 +185,93 @@ export default function ProductPage({ params }: { params: Promise<{ id: string }
                         transition={{ duration: 0.6 }}
                         className="flex flex-col gap-4"
                     >
-                        {/* Main Image */}
-                        <div className="aspect-[4/3] rounded-lg bg-gray-800 overflow-hidden relative group">
-                            <Image
-                                src={product.images[selectedImage]}
-                                alt={product.name}
-                                fill
-                                className="object-cover group-hover:scale-105 transition-transform duration-500 cursor-zoom-in"
-                            />
-                            <div className="absolute bottom-4 right-4 bg-black/50 backdrop-blur-sm text-white p-2 rounded-full opacity-0 group-hover:opacity-100 transition-opacity">
-                                <span className="material-symbols-outlined text-xl">
-                                    zoom_in
-                                </span>
-                            </div>
+                        {/* Main Image / Video View */}
+                        <div
+                            className="aspect-[4/3] rounded-lg bg-white border border-slate-200 overflow-hidden relative group flex items-center justify-center"
+                            onContextMenu={(e) => e.preventDefault()}
+                        >
+                            {selectedMedia ? (
+                                selectedMedia.type === 'video' ? (
+                                    <video
+                                        controls
+                                        autoPlay
+                                        muted
+                                        loop
+                                        playsInline
+                                        className="w-full h-full object-contain bg-black"
+                                        key={selectedMedia.url}
+                                        onMouseEnter={(e) => e.currentTarget.play()}
+                                        onMouseLeave={(e) => e.currentTarget.pause()}
+                                    >
+                                        <source src={selectedMedia.url} type="video/mp4" />
+                                        Your browser does not support the video tag.
+                                    </video>
+                                ) : (
+                                    <>
+                                        <Image
+                                            src={selectedMedia.url}
+                                            alt={product?.name || "Product Image"}
+                                            fill
+                                            className="object-contain p-4 group-hover:scale-105 transition-transform duration-500 cursor-zoom-in"
+                                        />
+                                        <div className="absolute inset-0 z-10 bg-transparent" />
+                                        <div className="absolute bottom-4 right-4 bg-black/50 backdrop-blur-sm text-white p-2 rounded-full opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none z-20">
+                                            <span className="material-symbols-outlined text-xl">
+                                                zoom_in
+                                            </span>
+                                        </div>
+                                    </>
+                                )
+                            ) : (
+                                <div className="w-full h-full flex items-center justify-center text-gray-300 bg-slate-50">
+                                    <span className="material-symbols-outlined text-6xl">diamond</span>
+                                </div>
+                            )}
                         </div>
 
                         {/* Thumbnails */}
-                        <div className="grid grid-cols-4 gap-4">
-                            {product.images.map((image, index) => (
-                                <motion.button
-                                    key={index}
-                                    whileHover={{ scale: 1.05 }}
-                                    whileTap={{ scale: 0.95 }}
-                                    onClick={() => setSelectedImage(index)}
-                                    className={`relative aspect-square rounded-lg overflow-hidden ${selectedImage === index
-                                        ? "border-2 border-[#1152d4] ring-2 ring-[#1152d4]/20"
-                                        : "border border-transparent hover:border-[#1152d4]/50"
-                                        }`}
-                                >
-                                    <Image
-                                        src={image}
-                                        alt={`${product.name} view ${index + 1}`}
-                                        fill
-                                        className="object-cover hover:opacity-75 transition-opacity"
-                                    />
-                                </motion.button>
-                            ))}
-                        </div>
+                        {mediaList.length > 1 && (
+                            <div className="grid grid-cols-4 gap-4">
+                                {mediaList.map((item, index) => (
+                                    <motion.button
+                                        key={index}
+                                        whileHover={{ scale: 1.05 }}
+                                        whileTap={{ scale: 0.95 }}
+                                        onClick={() => setSelectedMediaIndex(index)}
+                                        onContextMenu={(e) => e.preventDefault()}
+                                        className={`relative aspect-square rounded-lg overflow-hidden bg-white ${selectedMediaIndex === index
+                                            ? "border-2 border-[#1152d4] ring-2 ring-[#1152d4]/20"
+                                            : "border border-slate-200 hover:border-[#1152d4]/50"
+                                            }`}
+                                    >
+                                        {item.type === 'video' ? (
+                                            <div className="relative w-full h-full">
+                                                <Image
+                                                    src={product?.images?.[0] || '/placeholder.png'}
+                                                    alt="Video Thumbnail"
+                                                    fill
+                                                    className="object-cover opacity-60"
+                                                />
+                                                <div className="absolute inset-0 flex items-center justify-center text-[#1152d4]">
+                                                    <span className="material-symbols-outlined text-3xl drop-shadow-md">play_circle</span>
+                                                </div>
+                                                <div className="absolute inset-0 bg-transparent z-10" />
+                                            </div>
+                                        ) : (
+                                            <>
+                                                <Image
+                                                    src={item.url}
+                                                    alt={`${product?.name} view ${index + 1}`}
+                                                    fill
+                                                    className="object-contain p-1 hover:opacity-75 transition-opacity"
+                                                />
+                                                <div className="absolute inset-0 bg-transparent z-10" />
+                                            </>
+                                        )}
+                                    </motion.button>
+                                ))}
+                            </div>
+                        )}
                     </motion.div>
 
                     {/* Right Column: Product Info */}
@@ -147,7 +288,7 @@ export default function ProductPage({ params }: { params: Promise<{ id: string }
                             </h1>
                             <div className="mt-4 flex items-end gap-4">
                                 <p className="text-3xl font-semibold text-[#1152d4]">
-                                    ${product.price.toLocaleString()}.00
+                                    ${product.price.toLocaleString()}
                                 </p>
                                 <span className="text-sm text-gray-500 mb-1.5">
                                     Free insured shipping
@@ -170,7 +311,7 @@ export default function ProductPage({ params }: { params: Promise<{ id: string }
                                     <p className="text-xs text-gray-500 uppercase tracking-wide">
                                         Weight
                                     </p>
-                                    <p className="font-medium text-gray-900">{product.weight}</p>
+                                    <p className="font-medium text-gray-900">{product.weight || "-"}</p>
                                 </div>
                             </div>
                             <div className="flex items-center gap-3">
@@ -181,7 +322,7 @@ export default function ProductPage({ params }: { params: Promise<{ id: string }
                                     <p className="text-xs text-gray-500 uppercase tracking-wide">
                                         Origin
                                     </p>
-                                    <p className="font-medium text-gray-900">{product.origin}</p>
+                                    <p className="font-medium text-gray-900">{product.origin || "-"}</p>
                                 </div>
                             </div>
                             <div className="flex items-center gap-3">
@@ -192,7 +333,7 @@ export default function ProductPage({ params }: { params: Promise<{ id: string }
                                     <p className="text-xs text-gray-500 uppercase tracking-wide">
                                         Shape
                                     </p>
-                                    <p className="font-medium text-gray-900">{product.shape}</p>
+                                    <p className="font-medium text-gray-900">{product.shape || "-"}</p>
                                 </div>
                             </div>
                             <div className="flex items-center gap-3">
@@ -203,7 +344,7 @@ export default function ProductPage({ params }: { params: Promise<{ id: string }
                                     <p className="text-xs text-gray-500 uppercase tracking-wide">
                                         Treatment
                                     </p>
-                                    <p className="font-medium text-gray-900">{product.treatment}</p>
+                                    <p className="font-medium text-gray-900">{product.treatment || "-"}</p>
                                 </div>
                             </div>
                         </div>
@@ -321,61 +462,69 @@ export default function ProductPage({ params }: { params: Promise<{ id: string }
                 </div>
 
                 {/* Similar Items Section */}
-                <motion.div
-                    initial={{ opacity: 0, y: 30 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ duration: 0.6 }}
-                    className="mt-24 border-t border-slate-200 pt-16"
-                >
-                    <div className="flex items-center justify-between mb-8">
-                        <h2 className="text-2xl font-bold text-gray-900">Similar Gemstones</h2>
-                        <Link
-                            href="/collections"
-                            className="text-[#1152d4] hover:text-blue-700 font-medium text-sm flex items-center"
-                        >
-                            View All Sapphires
-                            <span className="material-symbols-outlined text-sm ml-1">
-                                arrow_forward
-                            </span>
-                        </Link>
-                    </div>
-
-                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-                        {similarProducts.map((item, index) => (
-                            <motion.div
-                                key={item.id}
-                                initial={{ opacity: 0, y: 20 }}
-                                whileInView={{ opacity: 1, y: 0 }}
-                                viewport={{ once: true }}
-                                transition={{ delay: index * 0.1 }}
-                                whileHover={{ y: -5 }}
-                                className="group relative bg-white rounded-lg border border-slate-200 overflow-hidden hover:shadow-xl transition-shadow duration-300"
+                {similarProducts.length > 0 && (
+                    <motion.div
+                        initial={{ opacity: 0, y: 30 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: true }}
+                        transition={{ duration: 0.6 }}
+                        className="mt-24 border-t border-slate-200 pt-16"
+                    >
+                        <div className="flex items-center justify-between mb-8">
+                            <h2 className="text-2xl font-bold text-gray-900">Similar Gemstones</h2>
+                            <Link
+                                href="/collections"
+                                className="text-[#1152d4] hover:text-blue-700 font-medium text-sm flex items-center"
                             >
-                                <div className="aspect-square w-full overflow-hidden bg-slate-50 relative">
-                                    <Image
-                                        src={item.images[0]}
-                                        alt={item.name}
-                                        fill
-                                        className="object-cover group-hover:opacity-75 transition-opacity"
-                                    />
-                                </div>
-                                <div className="p-4">
-                                    <h3 className="text-sm font-medium text-gray-900">
-                                        <Link href={`/product/${item.id}`}>
-                                            <span className="absolute inset-0" />
-                                            {item.name}
-                                        </Link>
-                                    </h3>
-                                    <p className="mt-1 text-sm text-gray-500">{item.clarity || item.weight}</p>
-                                    <p className="mt-2 text-lg font-medium text-[#1152d4]">
-                                        ${item.price.toLocaleString()}
-                                    </p>
-                                </div>
-                            </motion.div>
-                        ))}
-                    </div>
-                </motion.div>
+                                View All Sapphires
+                                <span className="material-symbols-outlined text-sm ml-1">
+                                    arrow_forward
+                                </span>
+                            </Link>
+                        </div>
+
+                        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                            {similarProducts.map((item, index) => (
+                                <motion.div
+                                    key={item.id}
+                                    initial={{ opacity: 0, y: 20 }}
+                                    whileInView={{ opacity: 1, y: 0 }}
+                                    viewport={{ once: true }}
+                                    transition={{ delay: index * 0.1 }}
+                                    whileHover={{ y: -5 }}
+                                    className="group relative bg-white rounded-lg border border-slate-200 overflow-hidden hover:shadow-xl transition-shadow duration-300"
+                                >
+                                    <div className="aspect-square w-full overflow-hidden bg-white relative">
+                                        {item.images && item.images[0] ? (
+                                            <Image
+                                                src={item.images[0]}
+                                                alt={item.name}
+                                                fill
+                                                className="object-contain p-4 group-hover:scale-110 transition-transform duration-500"
+                                            />
+                                        ) : (
+                                            <div className="w-full h-full flex items-center justify-center text-gray-200">
+                                                <span className="material-symbols-outlined text-4xl">diamond</span>
+                                            </div>
+                                        )}
+                                    </div>
+                                    <div className="p-4">
+                                        <h3 className="text-sm font-medium text-gray-900 line-clamp-1">
+                                            <Link href={`/product/${item.id}`}>
+                                                <span className="absolute inset-0" />
+                                                {item.name}
+                                            </Link>
+                                        </h3>
+                                        <p className="mt-1 text-sm text-gray-500">{item.clarity || item.weight}</p>
+                                        <p className="mt-2 text-lg font-medium text-[#1152d4]">
+                                            ${item.price.toLocaleString()}
+                                        </p>
+                                    </div>
+                                </motion.div>
+                            ))}
+                        </div>
+                    </motion.div>
+                )}
             </div>
         </main>
     );

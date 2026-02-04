@@ -4,6 +4,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import Link from "next/link";
 import Image from "next/image";
 import { useState, useEffect } from "react";
+import { supabase } from "@/lib/supabase";
 
 const fadeInUp = {
   initial: { opacity: 0, y: 60 },
@@ -60,51 +61,12 @@ function FAQItem({ question, answer }: { question: string; answer: string }) {
 }
 
 
-const categories = [
-  {
-    id: 1,
-    name: "Blue Sapphire",
-    price: 4250,
-    image: "/collections/blue/1.png",
-  },
-  {
-    id: 2,
-    name: "Pink Sapphire",
-    price: 3100,
-    image: "/collections/pink/1.png",
-  },
-  {
-    id: 3,
-    name: "Ruby",
-    price: 8500,
-    image: "/collections/rubie/1.png",
-  },
-  {
-    id: 4,
-    name: "Yellow Sapphire",
-    price: 5900,
-    image: "/collections/yellow/1.png",
-  },
-  {
-    id: 5,
-    name: "Padparadscha",
-    price: 12500,
-    image: "/collections/padmaracha/1.png",
-  },
-  {
-    id: 6,
-    name: "Cat's Eye",
-    price: 4800,
-    image: "/collections/cats-eye/1.png",
-  },
-  {
-    id: 7,
-    name: "Green Sapphire",
-    price: 2800,
-    image: "/collections/green/1.png",
-  },
-];
-
+interface Category {
+  id: number;
+  name: string;
+  image_url: string;
+  slug: string;
+}
 
 // Trust Bar Component
 function TrustBar() {
@@ -172,13 +134,46 @@ function TrustBar() {
 
 export default function Home() {
   const [currentSlide, setCurrentSlide] = useState(0);
-
-  const heroImages = [
+  const [categories, setCategories] = useState<Category[]>([]);
+  const [heroImages, setHeroImages] = useState<string[]>([
     "/hero/hero.jpeg",
     "/hero/hero1.jpeg",
     "/hero/hero3.jpeg",
     "/hero/hero4.jpeg",
-  ];
+  ]);
+
+  useEffect(() => {
+    const fetchCategories = async () => {
+      try {
+        const { data } = await supabase
+          .from("categories")
+          .select("*")
+          .order("name", { ascending: true });
+
+        if (data) setCategories(data);
+      } catch (error) {
+        console.error("Error fetching categories:", error);
+      }
+    };
+
+    fetchCategories();
+  }, []);
+
+
+
+  useEffect(() => {
+    const fetchHeroImages = async () => {
+      try {
+        const { data } = await supabase.from('hero_images').select('image_url').order('created_at', { ascending: false });
+        if (data && data.length > 0) {
+          setHeroImages(data.map((d: { image_url: string }) => d.image_url));
+        }
+      } catch (error) {
+        console.error("Error fetching hero images", error);
+      }
+    };
+    fetchHeroImages();
+  }, []);
 
   // Automatic slideshow
   useEffect(() => {
@@ -207,6 +202,12 @@ export default function Home() {
                   backgroundImage: `linear-gradient(rgba(11, 15, 25, 0.3) 0%, rgba(11, 15, 25, 0.7) 100%), url("${image}")`,
                 }}
               />
+              <div
+                className="absolute inset-0 z-10 bg-transparent"
+                onContextMenu={(e) => {
+                  e.preventDefault();
+                }}
+              />
             </div>
           ))}
           <div className="absolute inset-0 bg-black/20 z-0" />
@@ -218,38 +219,13 @@ export default function Home() {
           transition={{ duration: 0.8, delay: 0.2 }}
           className="relative z-10 flex flex-col items-start text-left max-w-4xl px-4 md:px-10 lg:px-20 w-full"
         >
-          <motion.h1
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.3 }}
-            className="text-white text-5xl md:text-7xl font-serif font-bold leading-tight tracking-tight mb-6 drop-shadow-2xl"
-          >
-            The Heart of Sri Lanka
-          </motion.h1>
-          <motion.h2
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.5 }}
-            className="text-white text-lg md:text-xl font-light leading-relaxed max-w-2xl mb-10 drop-shadow-xl"
-          >
-            Every sapphire tells a story of Sri Lanka’s rich earth. Discover hand-selected gemstones, ethically mined and precision-cut to capture the island’s light.
-          </motion.h2>
+
           <motion.div
             initial={{ opacity: 0, scale: 0.8 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.5, delay: 0.7 }}
           >
-            <Link
-              href="/collections"
-              className="group relative flex items-center justify-center overflow-hidden rounded-full bg-[#1152d4] hover:bg-[#1152d4]/90 text-white h-14 px-8 transition-all duration-300 transform hover:scale-105 shadow-[0_0_20px_rgba(17,82,212,0.5)]"
-            >
-              <span className="text-base font-bold tracking-wide mr-2">
-                Explore Collection
-              </span>
-              <span className="material-symbols-outlined group-hover:translate-x-1 transition-transform">
-                arrow_forward
-              </span>
-            </Link>
+
           </motion.div>
         </motion.div>
       </header>
@@ -377,23 +353,25 @@ export default function Home() {
                   transition={{ delay: index * 0.1 }}
                   className="flex flex-col gap-4 group transition-all duration-300"
                 >
-                  <Link href="/collections" className="w-full aspect-square rounded-none overflow-hidden relative bg-white border border-slate-100 p-6">
+                  <Link
+                    href={`/collections?category=${category.slug}`}
+                    className="w-full aspect-square rounded-none overflow-hidden relative bg-white border border-slate-100 p-6"
+                    onContextMenu={(e) => e.preventDefault()}
+                  >
                     <div className="relative w-full h-full">
                       <Image
-                        src={category.image}
+                        src={category.image_url}
                         alt={category.name}
                         fill
                         className="object-contain transition-transform duration-1000 group-hover:scale-120"
                       />
+                      <div className="absolute inset-0 z-10 bg-transparent" />
                     </div>
                   </Link>
                   <div className="flex flex-col gap-1">
                     <h3 className="text-gray-900 text-sm font-medium transition-colors line-clamp-1">
                       {category.name}
                     </h3>
-                    <p className="text-gray-900 font-bold text-sm">
-                      ${category.price.toLocaleString()}
-                    </p>
                   </div>
                 </motion.div>
               ))}
