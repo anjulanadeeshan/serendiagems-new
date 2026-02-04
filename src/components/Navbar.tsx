@@ -123,7 +123,7 @@ export default function Navbar() {
                                 className="object-contain rounded-full"
                             />
                             <h2 className="text-gray-900 text-lg font-serif font-bold tracking-tight">
-                                Serendia Gem
+                                Serendia Gems
                             </h2>
                         </Link>
 
