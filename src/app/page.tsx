@@ -141,6 +141,24 @@ export default function Home() {
     "/hero/hero3.jpeg",
     "/hero/hero4.jpeg",
   ]);
+  const [faqs, setFaqs] = useState<{ id: string; question: string; answer: string }[]>([]);
+
+  useEffect(() => {
+    const fetchFAQs = async () => {
+      try {
+        const { data } = await supabase
+          .from("faqs")
+          .select("id, question, answer")
+          .order("display_order", { ascending: true });
+
+        if (data) setFaqs(data);
+      } catch (error) {
+        console.error("Error fetching FAQs:", error);
+      }
+    };
+
+    fetchFAQs();
+  }, []);
 
   useEffect(() => {
     const fetchCategories = async () => {
@@ -481,30 +499,42 @@ export default function Home() {
             </div>
 
             <div className="flex flex-col">
-              <FAQItem
-                question="Are your gemstones natural and treated?"
-                answer="All our gemstones are 100% natural. We clearly disclose any treatments. The majority of our collection consists of unheated and untreated stones, directly sourced from mines."
-              />
-              <FAQItem
-                question="Do you provide certification?"
-                answer="Yes, every gemstone comes with a certificate of authenticity from reputable gemological laboratories. We ensure transparency in every purchase."
-              />
-              <FAQItem
-                question="What is your return policy?"
-                answer="We offer a 30-day money-back guarantee. If you are not completely satisfied with your purchase, you can return it for a full refund or exchange, provided it is in its original condition."
-              />
-              <FAQItem
-                question="Do you ship internationally?"
-                answer="Yes, we offer secure, insured worldwide shipping. Shipping times vary by location, but we strive to deliver your precious gems as safely and quickly as possible."
-              />
-              <FAQItem
-                question="Can I request a custom jewelry design?"
-                answer="Absolutely! We specialize in bespoke jewelry design. Our master craftsmen can create unique pieces around the gemstone of your choice. Contact us to discuss your vision."
-              />
-              <FAQItem
-                question="How do I care for my gemstones?"
-                answer="Store your gemstones separately in soft pouches, clean them with mild soap and water, and avoid exposure to harsh chemicals. We provide detailed care instructions with every purchase."
-              />
+              {faqs.length > 0 ? (
+                faqs.map((faq) => (
+                  <FAQItem
+                    key={faq.id}
+                    question={faq.question}
+                    answer={faq.answer}
+                  />
+                ))
+              ) : (
+                <>
+                  <FAQItem
+                    question="Are your gemstones natural and treated?"
+                    answer="All our gemstones are 100% natural. We clearly disclose any treatments. The majority of our collection consists of unheated and untreated stones, directly sourced from mines."
+                  />
+                  <FAQItem
+                    question="Do you provide certification?"
+                    answer="Yes, every gemstone comes with a certificate of authenticity from reputable gemological laboratories. We ensure transparency in every purchase."
+                  />
+                  <FAQItem
+                    question="What is your return policy?"
+                    answer="We offer a 30-day money-back guarantee. If you are not completely satisfied with your purchase, you can return it for a full refund or exchange, provided it is in its original condition."
+                  />
+                  <FAQItem
+                    question="Do you ship internationally?"
+                    answer="Yes, we offer secure, insured worldwide shipping. Shipping times vary by location, but we strive to deliver your precious gems as safely and quickly as possible."
+                  />
+                  <FAQItem
+                    question="Can I request a custom jewelry design?"
+                    answer="Absolutely! We specialize in bespoke jewelry design. Our master craftsmen can create unique pieces around the gemstone of your choice. Contact us to discuss your vision."
+                  />
+                  <FAQItem
+                    question="How do I care for my gemstones?"
+                    answer="Store your gemstones separately in soft pouches, clean them with mild soap and water, and avoid exposure to harsh chemicals. We provide detailed care instructions with every purchase."
+                  />
+                </>
+              )}
             </div>
           </div>
         </motion.section>

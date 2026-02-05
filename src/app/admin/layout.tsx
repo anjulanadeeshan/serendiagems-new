@@ -1,11 +1,22 @@
-import { LayoutDashboard, Images, Package, Shapes, Diamond, Layers, Globe, User } from "lucide-react";
+"use client";
+
+import { LayoutDashboard, Images, Package, Shapes, Diamond, Layers, Globe, User, FileText, HelpCircle, Settings, LogOut } from "lucide-react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 export default function AdminLayout({
     children,
 }: {
     children: React.ReactNode;
 }) {
+    const router = useRouter();
+
+    const handleLogout = async () => {
+        await fetch('/api/auth/logout', { method: 'POST' });
+        router.push('/admin/login');
+        router.refresh(); // clear client cache
+    };
+
     return (
         <div className="flex h-screen bg-slate-50">
             {/* Sidebar */}
@@ -62,21 +73,49 @@ export default function AdminLayout({
                         <Layers className="w-5 h-5" />
                         Manage Shapes
                     </Link>
+                    <Link
+                        href="/admin/legal"
+                        className="flex items-center gap-3 px-4 py-3 text-sm font-medium text-gray-700 rounded-lg hover:bg-slate-50 hover:text-[#b38e5d] transition-colors"
+                    >
+                        <FileText className="w-5 h-5" />
+                        Legal Pages
+                    </Link>
+                    <Link
+                        href="/admin/faqs"
+                        className="flex items-center gap-3 px-4 py-3 text-sm font-medium text-gray-700 rounded-lg hover:bg-slate-50 hover:text-[#b38e5d] transition-colors"
+                    >
+                        <HelpCircle className="w-5 h-5" />
+                        Manage FAQs
+                    </Link>
                 </nav>
-                <div className="p-4 border-t border-slate-100">
+
+                <div className="p-4 border-t border-slate-100 space-y-1">
+                    <Link
+                        href="/admin/settings"
+                        className="flex items-center gap-3 px-4 py-3 text-sm font-medium text-gray-700 rounded-lg hover:bg-slate-50 hover:text-[#b38e5d] transition-colors"
+                    >
+                        <Settings className="w-5 h-5" />
+                        Settings
+                    </Link>
+
+                    <button
+                        onClick={handleLogout}
+                        className="w-full flex items-center gap-3 px-4 py-3 text-sm font-medium text-red-600 rounded-lg hover:bg-red-50 transition-colors text-left"
+                    >
+                        <LogOut className="w-5 h-5" />
+                        Sign Out
+                    </button>
+
+                    <div className="h-px bg-slate-100 my-2" />
+
                     <Link
                         href="/"
                         target="_blank"
-                        className="flex items-center gap-3 px-4 py-3 text-sm font-medium text-gray-700 rounded-lg hover:bg-slate-50 hover:text-[#b38e5d] transition-colors mb-2"
+                        className="flex items-center gap-3 px-4 py-3 text-sm font-medium text-gray-500 rounded-lg hover:bg-slate-50 hover:text-[#b38e5d] transition-colors"
                     >
                         <Globe className="w-5 h-5" />
                         Go to Live Site
                     </Link>
-
-                    <div className="flex items-center gap-3 px-4 py-3 text-sm font-medium text-gray-500 border-t border-slate-100 mt-2 pt-4">
-                        <User className="w-5 h-5" />
-                        <span>Admin</span>
-                    </div>
                 </div>
             </aside>
 

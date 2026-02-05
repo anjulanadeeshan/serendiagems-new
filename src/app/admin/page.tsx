@@ -11,7 +11,8 @@ import {
     Clock,
     CheckCircle2,
     Truck,
-    MoreHorizontal
+    MoreHorizontal,
+    FileText
 } from "lucide-react";
 import toast from "react-hot-toast";
 
@@ -165,6 +166,19 @@ export default function AdminDashboard() {
                     </div>
                     <div className="w-12 h-12 bg-purple-50 rounded-full flex items-center justify-center text-purple-600 group-hover:bg-[#b38e5d]/10 group-hover:text-[#b38e5d] transition-colors">
                         <Shapes className="w-6 h-6" />
+                    </div>
+                </Link>
+
+                <Link
+                    href="/admin/legal"
+                    className="bg-white p-6 rounded-xl border border-slate-200 shadow-sm flex items-center justify-between hover:shadow-md hover:border-[#b38e5d]/50 transition-all cursor-pointer group"
+                >
+                    <div>
+                        <p className="text-sm font-medium text-gray-500 uppercase tracking-wider group-hover:text-[#b38e5d] transition-colors">Legal Pages</p>
+                        <h3 className="text-3xl font-bold text-gray-900 mt-2">2</h3>
+                    </div>
+                    <div className="w-12 h-12 bg-slate-50 rounded-full flex items-center justify-center text-slate-600 group-hover:bg-[#b38e5d]/10 group-hover:text-[#b38e5d] transition-colors">
+                        <FileText className="w-6 h-6" />
                     </div>
                 </Link>
             </div>
